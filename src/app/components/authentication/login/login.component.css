@@ -1,0 +1,38 @@
+.centerElmnt{
+    margin-top: 190px;
+    border-radius: 30px;
+    box-shadow: 250px 12px 200px greenyellow;
+}
+
+img{
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
+}
+
+.btn1{
+    border:none;
+    outline: none;
+    height: 50px;
+    width: 85%;
+    background-color: black;
+    color: white;
+    border-radius: 4px;
+    font-weight: bold;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
+}
+
+.btn1:hover{
+    background: white;
+    border: 1px solid;
+    color: black;
+}
+
+a{
+    text-decoration: none;
+    color: aliceblue
+}

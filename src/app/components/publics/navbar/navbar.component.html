@@ -1,0 +1,30 @@
+<div *ngIf="publicService.isLoading|async" class="loader-container">
+  <app-spinner></app-spinner>
+</div>
+<nav style="height: 75px;" class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <button style="width: 75px;" class="btn btn-outline mx-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+        <i class='fas fa-th-list' style='font-size:36px; color: white;'></i>
+      </button>
+      <!-- <a class="navbar-brand fw-bold text-uppercase" href="#">LOGO ADMIN</a> -->
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div style="background-color: gray;" class="collapse navbar-collapse" id="navbarSupportedContent">
+        <h2 class="text-white text-center">Espace d'administration {{name}}</h2>
+       
+        <form class="d-flex ms-auto">
+        </form>
+        <div class="dropdown">
+          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-person-fill"></i>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
+            <li><a (click)="logoutUser()" class="dropdown-item text-primary" [routerLink]="['/']" routerLinkActive="router-link-active" >Se déconnecter</a></li>
+            <li><a class="dropdown-item text-primary" [routerLink]="['/user-profile']" routerLinkActive="router-link-active" >Voir son profil</a></li>
+            <!-- <li><a class="dropdown-item text-primary" href="#">Something else here</a></li> -->
+          </ul>
+        </div>
+      </div>
+    </div>
+  </nav>

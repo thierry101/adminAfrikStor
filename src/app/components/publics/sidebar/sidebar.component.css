@@ -1,0 +1,25 @@
+:root{
+    --offcanvas-width: 50px;
+}
+
+.sidebar-nav{
+    width: 250px;
+    background-color: black;
+}
+
+ul li a {
+    text-decoration: none;
+    color: white; /* For Example */
+}
+
+.hoverColor :hover{
+    background-color: blue;
+}
+
+/* @media (min-width:992px){
+    .sidebar-nav{
+        transform: none;
+        visibility: visible !important;
+    }
+} */
+

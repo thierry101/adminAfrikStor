@@ -1,0 +1,39 @@
+<div class="container-fluid mt-4">
+    <h1 class="text-center text-uppercase"><strong>Politique et confidentialité, Réglement pour être Vendeur</strong></h1>
+
+    <h3 class="text-center text-uppercase mt-4"><strong>Politique de confidentialité</strong></h3>
+    <form class="row g-3">
+        <div class="col-md-12">
+          <label for="inputConfidentiality4" class="form-label"><strong>Politique de confidentialité</strong></label>
+          <angular-editor name="confidentiality" [(ngModel)]="confidentiality"></angular-editor>
+          <!-- <textarea class="form-control" id="inputConfidentiality4" name="" id="" cols="30" rows="10"></textarea> -->
+        </div>
+        <div class="col-12">
+          <button (click)="editConfidentiality(); clicked = true;" [disabled]="clicked" type="submit" class="btn btn-warning">Mettre à jour</button>
+        </div>
+    </form>
+
+    <h3 class="text-center text-uppercase mt-4"><strong>Réglement pour être Vendeur</strong></h3>
+    <form class="row g-3">
+      <div class="col-md-12">
+        <label for="inputConfidentialitySeller4" class="form-label"><strong>Réglement pour être Vendeur</strong></label>
+        <angular-editor name="ruleSeller" [(ngModel)]="sellerRule"></angular-editor>
+        <!-- <textarea class="form-control" id="inputConfidentialitySeller4" name="" id="" cols="30" rows="10"></textarea> -->
+      </div>
+      <div class="col-12">
+        <button (click)="editRuleSeller(); clicked = true;" [disabled]="clicked" type="submit" class="btn btn-warning">Mettre à jour</button>
+      </div>
+    </form>
+
+    <h3 class="text-center text-uppercase mt-4"><strong>Réglement pour l'acheteur</strong></h3>
+    <form class="row g-3">
+      <div class="col-md-12">
+        <label for="inputConfidentialitySeller4" class="form-label"><strong>Réglement pour l'acheteur</strong></label>
+        <angular-editor name="rulerBuyer" [(ngModel)]="buyerule"></angular-editor>
+        <!-- <textarea class="form-control" id="inputConfidentialitySeller4" name="" id="" cols="30" rows="10"></textarea> -->
+      </div>
+      <div class="col-12">
+        <button (click)="editRuleBuyer(); clicked = true;" [disabled]="clicked" type="submit" class="btn btn-warning">Mettre à jour</button>
+      </div>
+    </form>
+</div>

@@ -1,0 +1,146 @@
+<div class="container-fluid">
+    <div class="row mt-3">
+        <div class="col-md-5">
+            <!-- Button trigger modal -->
+           <div class="row">
+            <div class="col-md-5">
+                <button (click)="openModalCat()" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    Ajouter une catégorie
+                </button>
+            </div>
+            
+            <div class="col-md-7">
+                <div class="mb-3">
+                    <label for="exampleFormControlInput1" class="form-label"><strong>Rechercher une catégorie</strong></label>
+                    <input [(ngModel)]="catFiltering" type="email" class="form-control" id="exampleFormControlInput1" placeholder="Entrer le nom de la catégorie">
+                </div>
+            </div>
+           </div>
+            
+            <!-- Modal -->
+            <div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title text-uppercase" id="exampleModalLabel"><strong>{{title}}</strong></h4>
+                    </div>                    
+                    <app-add-edit-cat-sub 
+                        (newSubCategory)="addSubCat($event)" 
+                        (newCategory)="addCat($event)" 
+                        [itemCatEdit]="itemToEdit" 
+                        [itemSubCatEdit]="subCatEdit" 
+                        [editTheCat]="editCat" 
+                        [editTheSubCat]="editSubCat" 
+                        [statusCat]="stateCat" 
+                        [statusSubCat]="stateSubCat"
+                    >
+                    </app-add-edit-cat-sub>
+                </div>
+                </div>
+            </div>
+
+            <h3 class="text-uppsercase"><strong>Tableau des catégories</strong></h3>
+            <table class="table mt-3">
+                <thead class="table-dark">
+                  <tr>
+                    <th class="col-md-1" scope="col">#</th>
+                    <th class="col-md-5" scope="col">Titre catégorie</th>
+                    <!-- <th class="col-md-3" scope="col">Photo</th> -->
+                    <th class="col-md-2" scope="col">Statut</th>
+                    <th class="col-md-4" scope="col">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let category of categories | filter: catFiltering | paginate: { itemsPerPage: 10, currentPage: page, id: 'catId' } let i=index">
+                    <th scope="row">{{i+1}}</th>
+                    <td>{{category?.name | titlecase}}</td>
+                    <!-- <td>
+                        <img width="60px" height="65px" [src]="url+category?.image" alt="" srcset="">
+                    </td> -->
+                    <td>
+                        <div class="form-check form-switch">
+                            <input (change)="activeCategory(category.id, $event)" class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" [checked]="category?.statut">
+                        </div>
+                    </td>
+                    <td>
+                        <button (click)="editCategory(category)" data-bs-toggle="modal" data-bs-target="#exampleModal" title="Modifier" class="btn btn-warning withButtoncat mx-1 my-2">
+                            <i class='fas fa-pencil-alt' style='font-size:15px;color:white'></i>
+                        </button>
+                        <button (click)="deleteCategory(category)" class="btn btn-danger withButtoncat mx-2">
+                            <i class='fas fa-trash-alt' style='font-size:15px;color:white'></i>
+                        </button>
+                    </td>
+                  </tr>
+                </tbody>
+            </table>
+            <pagination-controls id="catId" (pageChange)="page = $event"></pagination-controls>
+        </div>
+
+        <div class="col-md-1 text-center">
+            <!-- get vertical line -->
+            <div class="vl"></div>
+        </div>
+
+        <div class="col-md-6">
+            <!-- Button trigger modal -->
+            <div class="row">
+                <div class="col-md-5">
+                    <button (click)="openModalSubCat()" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        Ajouter une sous-catégorie
+                    </button>
+                </div>
+                <div class="col-md-7">
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label"><strong>Rechercher une sous-catégorie</strong></label>
+                        <input [(ngModel)]="subCatFiltering" type="email" class="form-control" id="exampleFormControlInput1" placeholder="Entrer le nom de la sous-catégorie">
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <app-add-edit-cat-sub></app-add-edit-cat-sub>
+                </div>
+            </div>
+            <h3 class="text-uppsercase"><strong>Tableau des sous-catégories</strong></h3>
+            <table class="table mt-3">
+                <thead class="table-dark">
+                  <tr>
+                    <th class="col-md-1" scope="col">#</th>
+                    <th class="col-md-3" scope="col">Titre catégorie</th>
+                    <th class="col-md-3" scope="col">Sous-catégorie</th>
+                    <!-- <th class="col-md-2" scope="col">Photo</th> -->
+                    <th class="col-md-1" scope="col">Statut</th>
+                    <th class="col-md-4" scope="col">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of subCategories | filter: subCatFiltering | paginate: { itemsPerPage: 10, currentPage: p, id: 'subCatId' } let i=index">
+                    <th scope="row">{{i+1}}</th>
+                    <td>{{item?.category?.name | titlecase}}</td>
+                    <td>{{item?.name}}</td>
+                    <!-- <td>
+                        <img width="60px" height="65px" [src]="item?.image | image" alt="" srcset="">
+                    </td> -->
+                    <td>
+                        <div class="form-check form-switch">
+                            <input (change)="activeSubCategory(item.id, $event)" class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" [checked]="item?.statut">
+                        </div>
+                    </td>
+                    <td>
+                        <button (click)="editSubCategory(item)" data-bs-toggle="modal" data-bs-target="#exampleModal" title="Modifier" class="btn btn-warning mx-1 my-2 withButtoncat">
+                            <i class='fas fa-pencil-alt' style='font-size:15px;color:white'></i>
+                        </button>
+                        <button (click)="deleteSubCategory(item)" title="Supprimer" class="btn btn-danger withButtoncat mx-2">
+                            <i class='fas fa-trash-alt' style='font-size:15px;color:white'></i>
+                        </button>
+                    </td>
+                  </tr>
+                </tbody>
+            </table>
+            <pagination-controls id="subCatId" (pageChange)="p = $event"></pagination-controls>
+        </div>
+    </div>
+</div>
+

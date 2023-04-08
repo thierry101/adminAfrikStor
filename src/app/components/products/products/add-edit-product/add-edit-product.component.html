@@ -1,0 +1,357 @@
+
+    <div class="modal-body">
+        <form class="row g-3" [formGroup]="formProduct">
+            <div class="col-md-12">
+                <div class="form-check form-switch">
+                    <input formControlName="available" class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" [checked]="formProduct.get('available')?.value">
+                    <label class="form-check-label" for="flexSwitchCheckChecked"><strong>Disponibilité de l'article</strong></label>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <label for="inputTitle4" class="form-label"><strong>Sélectionner la catégorie</strong></label>
+                <ng-select [items]="categories" 
+                    bindLabel="name" 
+                    bindValue="id"
+                    formControlName="category_id" 
+                    >
+                </ng-select>
+                <ng-container *ngIf="errors">
+                    <div *ngFor="let item of errors | keyvalue"> 
+                        <span class="text-danger" *ngIf="(item.key=='cat_id')">
+                            {{item.value}}
+                        </span>
+                    </div>
+                </ng-container> 
+            </div>
+            <div class="col-md-4">
+                <label for="inputTitle4" class="form-label"><strong>Sélectionner la sous-catégorie</strong></label>
+                <select formControlName="sub_category_id" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+                    <option selected value="Choisir une sous-catégorie">Choisir une sous-catégorie</option>
+                    <option *ngFor="let item of filterSubCatId(formProduct.get(['category_id'])?.value)" value="{{item?.id}}">
+                        {{item?.name}}
+                    </option>
+                </select>
+                <ng-container *ngIf="errors">
+                    <div *ngFor="let item of errors | keyvalue"> 
+                        <span class="text-danger" *ngIf="(item.key=='sub_cat')">
+                            {{item.value}}
+                        </span>
+                    </div>
+                </ng-container>
+            </div>
+            <div class="col-md-4">
+                <label for="inputTitle4" class="form-label"><strong>Sélectionner la marque</strong></label>
+                <ng-select [items]="brands" 
+                    bindLabel="name" 
+                    bindValue="id" 
+                    formControlName="brand_id"
+                    >
+                </ng-select>
+                <ng-container *ngIf="errors">
+                    <div *ngFor="let item of errors | keyvalue"> 
+                        <span class="text-danger" *ngIf="(item.key=='brand_id')">
+                            {{item.value}}
+                        </span>
+                    </div>
+                </ng-container> 
+            </div>
+
+            <div class="col-md-4">
+                <label for="inputName4" class="form-label"><strong>Entrer le nom de l'article</strong></label>
+                <input formControlName="name" type="text" class="form-control" id="inputName4">
+                <ng-container *ngIf="errors">
+                    <div *ngFor="let item of errors | keyvalue"> 
+                        <span class="text-danger" *ngIf="(item.key=='name')">
+                            {{item.value}}
+                        </span>
+                    </div>
+                </ng-container> 
+            </div>
+
+            <div class="col-md-4">
+                <label for="inputPrice4" class="form-label"><strong>Entrer Prix</strong></label>
+                <input formControlName="price" type="number" class="form-control" id="inputPrice4">
+                <ng-container *ngIf="errors">
+                    <div *ngFor="let item of errors | keyvalue"> 
+                        <span class="text-danger" *ngIf="(item.key=='price')">
+                            {{item.value}}
+                        </span>
+                    </div>
+                </ng-container> 
+            </div>
+            <div class="col-md-4">
+                <label for="inputOtherPrice4" class="form-label"><strong>Entrer le prix de solde</strong></label>
+                <input formControlName="sold_price" type="number" class="form-control" id="inputOtherPrice4">
+                <ng-container *ngIf="errors">
+                    <div *ngFor="let item of errors | keyvalue"> 
+                        <span class="text-danger" *ngIf="(item.key=='sold_price')">
+                            {{item.value}}
+                        </span>
+                    </div>
+                </ng-container> 
+            </div> 
+
+            <hr class="dropdown-divider" style="background-color: blue;">
+
+            <div class="col-md-3">
+                <label for="inputMainImg4" class="form-label"><strong>Image principale vu de face</strong></label>
+                <input (change)="imagePreview($event)" type="file" class="form-control" id="inputMainImg4">
+                <ng-container *ngIf="errors">
+                    <div *ngFor="let item of errors | keyvalue"> 
+                        <span class="text-danger" *ngIf="(item.key=='mainImg')">
+                            {{item.value}}
+                        </span>
+                    </div>
+                </ng-container> 
+            </div>
+            <div class="col-md-2">
+                <label for="inputOverview1" class="form-label"><strong>Aperçu</strong></label>
+                <img id="inputOverview1" class="form-control" width="120px" height="80px" [src]="imagSrcProduct" alt="" srcset=""> 
+            </div>
+            <div class="col-md-2"></div>
+            <div class="col-md-3">
+                <label for="inputMainImg4" class="form-label"><strong>Image principale vu de derrière</strong></label>
+                <input (change)="imagePreviewsecond($event)" type="file" class="form-control" id="inputMainImg4">
+                <ng-container *ngIf="errors">
+                    <div *ngFor="let item of errors | keyvalue"> 
+                        <span class="text-danger" *ngIf="(item.key=='mainImg')">
+                            {{item.value}}
+                        </span>
+                    </div>
+                </ng-container> 
+            </div>
+            <div class="col-md-2">
+                <label for="inputOverview1" class="form-label"><strong>Aperçu</strong></label>
+                <img id="inputOverview1" class="form-control" width="120px" height="80px" [src]="imagSecondSrcProduct" alt="" srcset=""> 
+            </div>
+
+            <hr class="dropdown-divider" style="background-color: blue;">
+
+            <div class="col-md-3">
+                <label for="inputMainImg4" class="form-label"><strong>Sélectionner d'autres images de l'article</strong></label>
+                <input (change)="otherImgPreview($event)" type="file" multiple class="form-control" id="inputMainImg4">
+                <ng-container *ngIf="errors">
+                    <div *ngFor="let item of errors | keyvalue"> 
+                        <span class="text-danger" *ngIf="(item.key=='other_img')">
+                            {{item.value}}
+                        </span>
+                    </div>
+                </ng-container>
+            </div>
+            <div class="col-9">
+                <label for="inputAddress" class="form-label"><strong>Aperçu</strong></label>
+                <div class="d-flex flex-wrap flex-row bd-highlight mb-3">
+                    <div class="p-2 bd-highlight col-6" *ngFor="let item of otherImagSrcProduct let i=index">
+                        <div class="input-group mb-3">
+                            <img width="100px" height="60px" [src]="item.file | multiImg" alt="" srcset="">
+                            <label (click)="removeImg(i)" title="Supprimer" class="input-group-text btn-danger labelwidth" for="inputGroupFile02">
+                                <i class="fa fa-trash btn-danger" style='font-size:30px;color:white' aria-hidden="true"></i>
+                            </label>
+                        </div>
+                    </div>
+                  </div>
+            </div>
+
+            <div class="col-md-8">
+                <label for="inputTitle4" class="form-label"><strong>Choisir les couleurs disponibles</strong></label>
+                <ng-select #select
+                [items]="allColors"
+                (change)="addColorsVariation()"
+                [multiple]="true"
+                bindLabel="name"
+                formControlName="colors"
+                >
+                    <ng-template ng-label-tmp let-item="item" let-clear="clear">
+                        <span class="ng-value-label">
+                            <input readonly [ngStyle]="{'background-color': item.hex}" type="text" class="showColor" id="inputLogo4">
+                            {{item.name}} 
+                        </span>
+                        
+                            <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                    </ng-template>
+
+                    <ng-template ng-option-tmp let-item="item">
+                        <input readonly [ngStyle]="{'background-color': item.hex}" type="text" class="showColor" id="inputLogo4"> {{item.name}}
+                    </ng-template>
+                </ng-select>
+                <ng-container *ngIf="errors">
+                    <div *ngFor="let item of errors | keyvalue"> 
+                        <span class="text-danger" *ngIf="(item.key=='colors')">
+                            {{item.value}}
+                        </span>
+                    </div>
+                </ng-container> 
+            </div>
+            
+            <div class="col-md-4">
+                <label for="inputTitle4" class="form-label"><strong>Choisir les tailles disponibles</strong></label>
+                <ng-select
+                    #select
+                    [items]="allSizes"
+                    [multiple]="true"
+                    bindLabel="name"
+                    formControlName="sizes"
+                >
+                </ng-select>
+                <ng-container *ngIf="errors">
+                    <div *ngFor="let item of errors | keyvalue"> 
+                        <span class="text-danger" *ngIf="(item.key=='sizes')">
+                            {{item.value}}
+                        </span>
+                    </div>
+                </ng-container> 
+
+            </div>
+
+            <hr>
+           <div *ngIf="formProduct.get('colors')?.value?.length > 0" class="row">
+                <h3>Afficher les images selon les couleurs</h3>
+                <div class="col-md-4">
+                    <label for="inputTitle4" class="form-label"><strong>Choisir une couleur</strong></label>
+                    <select formControlName="colorSelected" class="form-select" aria-label="Default select example">
+                        <option selected>Choisir une couleur</option>
+                        <option *ngFor="let item of colorForImg" value="{{item.hex}}@{{item.name}}">{{item.name}}</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label for="inputMainImg4" class="form-label"><strong>Sélectionner l'image</strong></label>
+                    <input (change)="imageColorPreview($event)" type="file" class="form-control" id="inputMainImg4">
+                </div>
+            
+                <div *ngIf="colorImagSrcProduct.length>0" class="col-md-12">
+                    <div class="d-flex flex-wrap flex-row bd-highlight mb-3">
+                        <div class="p-2 bd-highlight" *ngFor="let item of colorImagSrcProduct let i=index">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text widthOfColor" [ngStyle]="{'background-color': item.hex}"></span>
+                                <img width="150px" class="form-control" height="80px" [src]="item.img | multiImg" alt="" srcset="">
+                                <!-- <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)"> -->
+                                <span (click)="removeImgColor(i)" class="input-group-text btn-danger">
+                                    <i class="icon-remove" style='font-size:30px;color:red'></i>
+                                </span>
+                            </div>
+                            <ng-container *ngIf="errors">
+                                <div *ngFor="let item of errors | keyvalue"> 
+                                    <span class="text-danger" *ngIf="(item.key=='colorImgs')">
+                                        {{item.value}}
+                                    </span>
+                                </div>
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>
+           </div>
+
+            <div class="col-md-12">
+                <label for="inputMainImg4" class="form-label"><strong>Description</strong></label>
+                <angular-editor formControlName="description"></angular-editor>
+                <ng-container *ngIf="errors">
+                    <div *ngFor="let item of errors | keyvalue"> 
+                        <span class="text-danger" *ngIf="(item.key=='description')">
+                            {{item.value}}
+                        </span>
+                    </div>
+                </ng-container> 
+            </div>
+
+            <hr class="dropdown-divider" style="background-color: blue;">
+           
+            <!-- <h4>
+                Le prix de cet Article varie en fonction de la couleur ou de la taille ?
+                <div class="form-check form-check-inline">
+                    <input (click)="getVariation($event.target)" formControlName="variationChoice" class="form-check-input" type="radio" id="inlineRadio10" value="true">
+                    <label class="form-check-label" for="inlineRadio1">Oui</label>
+                </div>
+                <div class="form-check form-check-inline">
+                <input (click)="getVariation($event.target)" formControlName="variationChoice" class="form-check-input" type="radio" id="inlineRadio20" value="false">
+                <label class="form-check-label" for="inlineRadio2">Non</label>
+                </div>
+            </h4>
+
+            <div *ngIf="showVariation">
+                <h4>
+                    Sélectionner le type de variation : 
+                    <div class="form-check form-check-inline">
+                        <input (click)="selecVariation($event.target)" class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="color">
+                        <label class="form-check-label" for="inlineRadio1">Couleur</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input (click)="selecVariation($event.target)" class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="size">
+                        <label class="form-check-label" for="inlineRadio2">Taille</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input (click)="selecVariation($event.target)" class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="rien">
+                        <label class="form-check-label" for="inlineRadio2">Rien</label>
+                      </div>
+                </h4>
+
+                <div *ngIf="selectVariationColor && colorForVariation.length > 0" class="row">
+                    <div *ngIf="selectVariationColor" class="col-md-2">
+                        <label for="inputTitle4" class="form-label"><strong>Sélectionner la couleur</strong></label>
+                        <select formControlName="idColor_variation" class="form-select" aria-label="Default select example">
+                            <option selected value="Choisir une couleur">Choisir une couleur</option>
+                            <option *ngFor="let item of colorForVariation" value="{{item.name}}.{{item.hex}}">{{item.name}}</option>
+                        </select>
+                    </div>
+                   
+                    <div class="col-md-3">
+                        <label for="inputPriceVariation" class="form-label"><strong>Prix</strong></label>
+                        <input formControlName="priceColorVariation" type="number" class="form-control" id="inputPriceVariation" placeholder="Entrer le prix">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="inputAddress2" class="form-label"><strong>Sélectionner l'image</strong></label>
+                        <div class="input-group mb-3">
+                            <input (change)="imageColorVariationPreview($event)" type="file" class="form-control" aria-label="Recipient's username" aria-describedby="button-addon2">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="inputOverview1" class="form-label"><strong>Aperçu</strong></label>
+                        <img id="inputOverview1" class="form-control" width="60px" height="60px" [src]="srcimgColorVariation" alt="" srcset="">
+                    </div>
+                    <div class="col-md-1 mt-4">
+                        <button (click)="fillTableColorVariation()" class="btn btn-info">Ajouter</button>
+                    </div>
+                </div>
+
+
+                <div *ngIf="selectVariationSize && sizesForVariation.length > 0" class="row">
+                    <div *ngIf="selectVariationSize" class="col-md-2">
+                        <label for="inputTitle4" class="form-label"><strong>Sélectionner la taille</strong></label>
+                        <select formControlName="idSize_variation" class="form-select" aria-label="Default select example">
+                            <option selected value="Choisir une taille">Choisir une taille</option>
+                            <option *ngFor="let item of sizesForVariation" value="{{item?.id}}">{{item?.name}}</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="inputPriceVariation" class="form-label"><strong>Prix</strong></label>
+                        <input type="number" class="form-control" id="inputPriceVariation" placeholder="Entrer le prix">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="inputAddress2" class="form-label"><strong>Sélectionner l'image</strong></label>
+                        <div class="input-group mb-3">
+                            <input type="file" class="form-control" aria-label="Recipient's username" aria-describedby="button-addon2">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="inputOverview1" class="form-label"><strong>Aperçu</strong></label>
+                        <input type="text" class="form-control" id="inputOverview1" placeholder="1234 Main St">
+                    </div>
+                    <div class="col-md-1 mt-4">
+                        <button class="btn btn-info">Ajouter</button>
+                    </div>
+                </div>
+
+
+
+            </div> -->
+        </form>
+    </div>
+    <div class="modal-footer">
+    <button id="closeModalProduct" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+    <button *ngIf="!editOrNot" (click)="registerProduct(); clicked = true;" [disabled]="clicked" type="button" class="btn btn-primary">Sauvegarder</button>
+    <button *ngIf="editOrNot" (click)="editProduct(); clicked = true;" [disabled]="clicked" type="button" class="btn btn-warning">Modifier</button>
+    </div>
+
+
+<!-- 
+    creer le componet des marques associer a un autre componet
+ -->

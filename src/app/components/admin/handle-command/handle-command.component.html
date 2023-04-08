@@ -1,0 +1,149 @@
+<div class="container-fluid mt-4">
+  <div class="mt-2 mb-1">
+    <h2 class="text-center mt-3"><strong>Liste des commandes à valider</strong></h2>
+      <label for="formGroupExampleInput2" class="form-label"><h3><strong>Rechercher un article</strong></h3></label>
+      <input type="text" class="form-control" [(ngModel)]="cmdFiltering" id="formGroupExampleInput2" placeholder="Entrer le mot à rechercher">
+    </div>
+    <table class="table">
+        <thead class="table-dark">
+          <tr>
+            <th class="col-md-0.5" scope="col">#</th>
+            <th class="col-md-2" scope="col">Nom et prénom</th>
+            <th class="col-md-1.5" scope="col">Téléphone</th>
+            <th class="col-md-1.5" scope="col">Numéro commande</th>
+            <th class="col-md-1.5" scope="col">Méthode de payment</th>
+            <th class="col-md-1" scope="col">Montant</th>
+            <th class="col-md-1.5" scope="col">Frais de livraison</th>
+            <th class="col-md-1.5" scope="col">status</th>
+            <th class="col-md-1" scope="col">Voir</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of commands |filter:cmdFiltering | paginate: { itemsPerPage: 10, currentPage: p, id: 'productId' } let i=index">
+            <th scope="row">{{i+1}}</th>
+            <ng-container *ngIf="item?.user">
+              <td>{{item?.user?.last_name}} {{item?.user?.first_name}}</td>
+              <td>{{item?.user?.phone}}</td>
+            </ng-container>
+            <ng-container *ngIf="!item?.user">
+              <ng-container *ngFor="let adr of convetToJson(item?.infoAnonUser)">
+                <td title="Non inscrit"><i class="fas fa-exclamation" style='font-size:20px; color: red;'></i> {{adr?.name}} {{adr?.surname}}</td>
+                <td>{{adr?.phone}}</td>
+              </ng-container>
+              
+            </ng-container>
+            
+            <td>{{item?.orderNumber}}</td>
+            <td>{{item?.paymentMethod}}</td>
+            <td>{{item?.newTotal | number}} Fcfa</td>
+            <td>{{item?.priceDelivery | number}} Fcfa</td>
+            <td>
+              <select (change)="changeState($event, item?.nberInvoice)" id="inputState" class="form-select">
+                <option *ngFor="let ite of statcmd" [selected]="item?.status==ite">{{ite}}</option>
+              </select>
+            </td>
+            <td>
+                <!-- Button trigger modal -->
+                <button (click)="editCommande(item)" title="Voir" type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                  <i class="fas fa-eye style='font-size:20px'"></i>
+                </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <pagination-controls id="productId" (pageChange)="p = $event"></pagination-controls>
+
+</div>
+
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"><strong>Edition de commande</strong></h5>
+        <button type="button" id="btnClose01" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form class="row g-3">
+         <div *ngIf="command?.user" class="row">
+          <div class="col-md-6">
+            <label for="inputName4" class="form-label"><strong>Nom et prénom</strong></label>
+            <input readonly type="text" value="{{command?.user?.last_name}} {{command?.user?.first_name}}" class="form-control" id="inputName4">
+          </div>
+          <div class="col-md-6">
+            <label for="inputEmail4" class="form-label"><strong>Email</strong></label>
+            <input readonly type="email" value="{{command?.user?.email}}" class="form-control" id="inputEmail4">
+          </div>
+          <div class="col-md-6">
+            <label for="inputPhone4" class="form-label"><strong>Numéro de téléphone</strong></label>
+            <input readonly type="text" value="{{command?.user?.phone}}" class="form-control" id="inputPhone4">
+          </div>
+          <div class="col-md-6">
+            <label for="inputCommand4" class="form-label"><strong>Numéro de la commande</strong></label>
+            <input readonly type="text" value="{{command?.orderNumber}}" class="form-control" id="inputCommand4">
+          </div>
+          <div class="col-12">
+            <label for="inputAddress" class="form-label"><strong>Addresse livraison (pays, ville, quartier)</strong></label>
+            <input readonly type="text" value="{{command?.address?.country}} , {{command?.address?.city}},  {{command?.address?.address}} ({{command?.address?.situation}})" class="form-control" id="inputAddress">
+          </div>
+         </div>
+         <ng-container *ngIf="!command?.user">
+          <div *ngFor="let item of anonUser" class="row">
+            <div class="col-md-6">
+              <label for="inputName4" class="form-label"><strong>Nom et prénom</strong></label>
+              <input readonly type="text" value="{{item?.name}} {{item?.surname}}" class="form-control" id="inputName4">
+            </div>
+            <div class="col-md-6">
+              <label for="inputEmail4" class="form-label"><strong>Email</strong></label>
+              <input readonly type="email" value="{{item?.email}}" class="form-control" id="inputEmail4">
+            </div>
+            <div class="col-md-6">
+              <label for="inputPhone4" class="form-label"><strong>Numéro de téléphone</strong></label>
+              <input readonly type="text" value="{{item?.phone}}" class="form-control" id="inputPhone4">
+            </div>
+            <div class="col-md-6">
+              <label for="inputCommand4" class="form-label"><strong>Numéro de la commande</strong></label>
+              <input readonly type="text" value="{{command?.orderNumber}}" class="form-control" id="inputCommand4">
+            </div>
+            <div class="col-12">
+              <label for="inputAddress" class="form-label"><strong>Addresse livraison (pays, ville, quartier)</strong></label>
+              <input readonly type="text" value="{{item?.country}} , {{item?.city}},  {{item?.address}} ({{item?.exactAddress}})" class="form-control" id="inputAddress">
+            </div>
+           </div>
+         </ng-container>
+         
+
+          <div class="col-12">
+            <label for="inputAddress2" class="form-label"><strong>Liste des articles, quantités et prix, Propriétaire article et Numéro</strong></label>
+            <li *ngFor="let item of articles">
+              {{item?.title}} : {{item?.quantity}} * {{item?.price}} (couleur: {{item?.color}}, taille: {{item?.size}}) | {{item?.emailProvider}} , {{item?.phoneProvider}}
+            </li>
+          </div>
+          <div class="col-md-6">
+            <label for="inputDelivry" class="form-label"><strong>Montant livraison</strong></label>
+            <input type="text" name="amount" [(ngModel)]="amtDelevery" class="form-control" id="inputDelivry">
+          </div>
+          <div class="col-md-6">
+            <label for="inputAmount" class="form-label"><strong>Montant Total</strong></label>
+            <input readonly type="number" value="{{command?.newTotal}}" class="form-control" id="inputAmount">
+          </div>
+          <div class="col-md-6">
+            <label for="inputPayment" class="form-label"><strong>Méthode de payment</strong></label>
+            <input readonly type="text" value="{{command?.paymentMethod}}" class="form-control" id="inputPayment">
+          </div>
+          <div class="col-md-4">
+            <label for="inputState" class="form-label"><strong>Statut</strong></label>
+            <input readonly type="text" value="{{command?.status}}" class="form-control" id="inputAmount">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <!-- <button type="button" (click)="formCommand.resetForm();" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> -->
+        <button (click)="submitPrice(command); clicked = true;" [disabled]="clicked" type="button" class="btn btn-primary">Envoyer</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,110 @@
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-5">
+            <h3><strong>Creer un blog</strong></h3>
+            <form [formGroup]="formBlog" class="row g-3">
+                <div class="col-md-12">
+                  <label for="inputTitle4" class="form-label"><strong>Titre</strong></label>
+                  <input formControlName="title" type="text" class="form-control" id="inputTitle4">
+                  <ng-container *ngIf="errors">
+                    <div *ngFor="let item of errors | keyvalue"> 
+                        <span class="text-danger" *ngIf="(item.key=='title')">
+                            {{item.value}}
+                        </span>
+                    </div>
+                  </ng-container>
+                </div>
+                <div class="col-md-12">
+                  <label for="inputCategory4" class="form-label"><strong>Catégorie</strong></label>
+                  <input formControlName="category" type="text" class="form-control" id="inputCategory4">
+                  <ng-container *ngIf="errors">
+                    <div *ngFor="let item of errors | keyvalue"> 
+                        <span class="text-danger" *ngIf="(item.key=='category')">
+                            {{item.value}}
+                        </span>
+                    </div>
+                  </ng-container>
+                </div>
+                <div class="col-6">
+                  <label for="inputAddress" class="form-label"><strong>photo de couverture</strong></label>
+                  <input (change)="imagePreview($event)" type="file" class="form-control" id="inputAddress" placeholder="1234 Main St">
+                  <ng-container *ngIf="errors">
+                    <div *ngFor="let item of errors | keyvalue"> 
+                        <span class="text-danger" *ngIf="(item.key=='mainImg')">
+                            {{item.value}}
+                        </span>
+                    </div>
+                  </ng-container>
+                </div>
+                <div class="col-6">
+                    <label for="inputAddress" class="form-label"><strong>Apercu</strong></label>
+                    <img width="100px" height="100px" src="{{imagSrcBlog}}" alt="">
+                </div>
+                <div class="col-12">
+                  <label for="inputArticle2" class="form-label"><strong>Article</strong></label>
+                  <angular-editor name="confidentiality" formControlName="article"></angular-editor>
+                  <ng-container *ngIf="errors">
+                    <div *ngFor="let item of errors | keyvalue"> 
+                        <span class="text-danger" *ngIf="(item.key=='article')">
+                            {{item.value}}
+                        </span>
+                    </div>
+                  </ng-container>
+                </div>
+                <div class="col-md-12">
+                    <label for="inputAuthor4" class="form-label"><strong>Autheur</strong></label>
+                    <input formControlName="author" type="text" class="form-control" id="inputAuthor4">
+                    <ng-container *ngIf="errors">
+                        <div *ngFor="let item of errors | keyvalue"> 
+                            <span class="text-danger" *ngIf="(item.key=='author')">
+                                {{item.value}}
+                            </span>
+                        </div>
+                    </ng-container>
+                  </div>
+                <div class="col-12">
+                    <div class="form-check form-switch">
+                        <input formControlName="statut" class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked>
+                        <label class="form-check-label" for="flexSwitchCheckChecked"><strong>Statut</strong></label>
+                    </div>
+                </div>
+                <div class="col-12">
+                  <button *ngIf="!edit" (click)="submitBlog(); clicked = true;" [disabled]="clicked" type="submit" class="btn btn-primary">Enregistrer</button>
+                  <button *ngIf="edit" (click)="submitEditBlog(); clicked = true;" [disabled]="clicked" type="submit" class="btn btn-warning mx-2">Editer</button>
+                  <button *ngIf="edit" (click)="createNewBlog()" type="submit" class="btn btn-primary">Créer un nouveau blog</button>
+                </div>
+              </form>
+        </div>
+        <div class="col-md-7">
+            <h3 class="mx-5"><strong>Liste des articles</strong></h3>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Catégorie</th>
+                  <th scope="col">Titre</th>
+                  <th scope="col">Statut</th>
+                  <th scope="col">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of blogs let i=index">
+                  <th scope="row">{{i+1}}</th>
+                  <td>{{item.category}}</td>
+                  <td>{{item.title}}</td>
+                  <td>
+                    <div class="form-check form-switch">
+                      <input (change)="changeState($event, item?.id)" class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" [checked]="item.statut">
+                    </div>
+                  </td>
+                  <td>
+                    <button (click)="editItem(item)" type="button" class="btn btn-secondary">
+                      <i class="fa fa-eye" aria-hidden="true"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+        </div>
+    </div>
+</div>

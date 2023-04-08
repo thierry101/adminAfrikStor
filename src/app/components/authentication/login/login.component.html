@@ -1,0 +1,237 @@
+<div class="container mt-5">
+    <div class="row centerElmnt">
+        <div class="col-md-5 mt-5 mx-2">
+            <img width="100%" height="350px" src="assets/img/image.jpeg" alt="">
+        </div>
+        <div class="col-md-5 mt-5 mx-2">
+          <!-- **************************** ABOUT LOGIN ****************************** -->
+          <ng-container *ngIf="errors">
+            <div *ngFor="let item of errors | keyvalue"> 
+                <span class="text-danger" *ngIf="(item.key=='activate')">
+                    {{item.value}}
+                </span>
+            </div>
+            
+          </ng-container>
+            <form class="row g-3" [formGroup]="formLogin">
+                <div class="col-md-10">
+                  <label for="inputEmail4" class="form-label"><strong>Adresse Emails</strong></label>
+                  <input formControlName="email" type="email" class="form-control" id="inputEmail4">
+                  <ng-container *ngIf="errors">
+                    <div *ngFor="let item of errors | keyvalue"> 
+                        <span class="text-danger" *ngIf="(item.key=='login')">
+                            {{item.value}}
+                        </span>
+                    </div>
+                  </ng-container>
+                </div>
+                <div class="col-md-10">
+                  <label for="inputPassword4" class="form-label"><strong>Mot de passe</strong></label>
+                  <input formControlName="password" type="password" class="form-control" id="inputPassword4">
+                  <ng-container *ngIf="errors">
+                    <div *ngFor="let item of errors | keyvalue"> 
+                        <span class="text-danger" *ngIf="(item.key=='login')">
+                            {{item.value}}
+                        </span>
+                    </div>
+                  </ng-container>
+                </div>
+                
+                <div class="col-12">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="gridCheck">
+                    <label class="form-check-label" for="gridCheck">
+                        Me garder connecter
+                    </label>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <button (click)="loginUser(); clicked = true;" [disabled]="clicked" class="btn btn-primary btn1">Se connecter</button>
+                </div>
+                <a (click)="lauchModalForgot()" data-bs-toggle="modal" data-bs-target="#exampleModalResetPassword" href="#">Mot de passe oublié ?</a>
+                <p>Vous n'avez pas de compte vendeur ? <a (click)="clearError()" data-bs-toggle="modal" data-bs-target="#modalRegisterSeller" href="#">Enregistrez vous ici</a></p>
+              </form>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal for reset password -->
+<div class="modal fade" id="exampleModalResetPassword" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"><strong>Réinitialisation de mot de passe</strong></h5>
+        <button id="closeModalForgot" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label for="exampleInputEmail1" class="form-label"><strong>Adresse EMail</strong></label>
+          <input [(ngModel)]="email" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+          <ng-container *ngIf="errors">
+            <div *ngFor="let item of errors | keyvalue"> 
+                <span class="text-danger" *ngIf="(item.key=='email')">
+                    {{item.value}}
+                </span>
+            </div>
+          </ng-container>
+          <div id="emailHelp" class="form-text">Entrez votre adresse email pour réinitialiser votre mot de passe .</div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+        <button (click)="resetPassord(); clicked = true;" [disabled]="clicked" type="button" class="btn btn-primary">Envoyer</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- modal for seller -->
+<div class="modal fade" id="modalRegisterSeller" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Créer un compte vendeur</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="formSeller" class="row g-3">
+          <div class="col-md-12">
+            <label for="inputShop4" class="form-label">Nom de la boutique</label>
+            <input formControlName="nameShop" type="text" class="form-control" id="inputShop4">
+            <ng-container *ngIf="errors">
+              <div *ngFor="let item of errors | keyvalue"> 
+                  <span class="text-danger" *ngIf="(item.key=='nameShop')">
+                      {{item.value}}
+                  </span>
+              </div>
+            </ng-container>
+          </div>
+          <div class="col-md-6">
+            <label for="inputName4" class="form-label">Nom</label>
+            <input formControlName="last_name" type="text" class="form-control" id="inputName4">
+            <ng-container *ngIf="errors">
+              <div *ngFor="let item of errors | keyvalue"> 
+                  <span class="text-danger" *ngIf="(item.key=='last_name')">
+                      {{item.value}}
+                  </span>
+              </div>
+            </ng-container>
+          </div>
+          <div class="col-md-6">
+            <label for="inputSurname4" class="form-label">Prénom</label>
+            <input formControlName="first_name" type="text" class="form-control" id="inputSurname4">
+            <ng-container *ngIf="errors">
+              <div *ngFor="let item of errors | keyvalue"> 
+                  <span class="text-danger" *ngIf="(item.key=='first_name')">
+                      {{item.value}}
+                  </span>
+              </div>
+            </ng-container>
+          </div>
+          <div class="col-md-6">
+            <label for="inputEmail45" class="form-label">Email</label>
+            <input formControlName="email" type="email" class="form-control" id="inputEmail45">
+            <ng-container *ngIf="errors">
+              <div *ngFor="let item of errors | keyvalue"> 
+                  <span class="text-danger" *ngIf="(item.key=='email')">
+                      {{item.value}}
+                  </span>
+              </div>
+            </ng-container>
+          </div>
+          <div class="col-md-6">
+            <label for="inputTypeUser4" class="form-label">Type de compte</label>
+            <input formControlName="type" type="text" value="Vendeur" readonly class="form-control" id="inputTypeUser4">
+          </div>
+          <div class="col-md-6">
+            <label for="inputPhone4" class="form-label">Numéro de téléphone</label>
+            <input formControlName="phone" type="tel" class="form-control" id="inputPhone4">
+            <ng-container *ngIf="errors">
+              <div *ngFor="let item of errors | keyvalue"> 
+                  <span class="text-danger" *ngIf="(item.key=='phone')">
+                      {{item.value}}
+                  </span>
+              </div>
+            </ng-container>
+          </div>
+          <div class="col-md-6">
+            <label for="inputAccountMobile4" class="form-label">Compte mobile money</label>
+            <input formControlName="moneyPhone" type="tel" class="form-control" id="inputAccountMobile4">
+            <ng-container *ngIf="errors">
+              <div *ngFor="let item of errors | keyvalue"> 
+                  <span class="text-danger" *ngIf="(item.key=='moneyPhone')">
+                      {{item.value}}
+                  </span>
+              </div>
+            </ng-container>
+          </div>
+          <div class="col-md-6">
+            <label for="inputPassword44" class="form-label">Mot de passe</label>
+            <input formControlName="password" type="password" class="form-control" id="inputPassword44">
+            <ng-container *ngIf="errors">
+              <div *ngFor="let item of errors | keyvalue"> 
+                  <span class="text-danger" *ngIf="(item.key=='password')">
+                      {{item.value}}
+                  </span>
+              </div>
+            </ng-container>
+          </div>
+          <div class="col-md-6">
+            <label for="inputPasswordConfirm4" class="form-label">Confirmer mot de passe</label>
+            <input formControlName="password_confirm" type="password" class="form-control" id="inputPasswordConfirm4">
+            <ng-container *ngIf="errors">
+              <div *ngFor="let item of errors | keyvalue"> 
+                  <span class="text-danger" *ngIf="(item.key=='password_confirm')">
+                      {{item.value}}
+                  </span>
+              </div>
+            </ng-container>
+          </div>
+          
+          <div class="col-md-6">
+            <label for="inputCountry" class="form-label">Pays de résidence</label>
+            <input formControlName="country" type="text" class="form-control" id="inputCountry">
+            <ng-container *ngIf="errors">
+              <div *ngFor="let item of errors | keyvalue"> 
+                  <span class="text-danger" *ngIf="(item.key=='country')">
+                      {{item.value}}
+                  </span>
+              </div>
+            </ng-container>
+          </div>
+          <div class="col-md-6">
+            <label for="inputCity" class="form-label">Ville</label>
+            <input formControlName="city" type="text" class="form-control" id="city">
+            <ng-container *ngIf="errors">
+              <div *ngFor="let item of errors | keyvalue"> 
+                  <span class="text-danger" *ngIf="(item.key=='city')">
+                      {{item.value}}
+                  </span>
+              </div>
+            </ng-container>
+          </div>
+          <div class="form-check">
+            <input formControlName="approve" class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
+            <label class="form-check-label" for="flexCheckChecked">
+              J'approuve la <a class="text-primary" target="_blank" [routerLink]="['/seller-policy']">politique de vente. </a>
+            </label>
+            <ng-container *ngIf="errors">
+              <div *ngFor="let item of errors | keyvalue"> 
+                  <span class="text-danger" *ngIf="(item.key=='approve')">
+                      {{item.value}}
+                  </span>
+              </div>
+            </ng-container>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="closeModalRegister" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+        <button (click)="registerSeller(); clicked = true;" [disabled]="clicked" type="button" class="btn btn-primary">Envoyer</button>
+      </div>
+    </div>
+  </div>
+</div>
+

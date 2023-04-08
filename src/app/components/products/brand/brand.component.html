@@ -1,0 +1,102 @@
+<div class="container-fluid">
+    <div class="row mt-5">
+        <div class="col-md-4">
+            <h3><strong>Ajouter une marque</strong></h3>
+            <form class="row g-3" [formGroup]="formBrand">
+                <div class="col-md-12">
+                  <label for="inputBrand4" class="form-label"><strong>Nom de la marque</strong></label>
+                  <input formControlName="title" type="text" class="form-control" id="inputBrand4">
+                  <ng-container *ngIf="errors">
+                    <div *ngFor="let item of errors | keyvalue"> 
+                        <span class="text-danger" *ngIf="(item.key=='title')">
+                            {{item.value}}
+                        </span>
+                    </div>
+                  </ng-container>
+                </div>
+                <div class="col-md-6">
+                  <label for="inputLogo4" class="form-label"><strong>Sélectionner le logo</strong></label>
+                  <input (change)="imagePreviewSubCat($event)" type="file" class="form-control" id="inputLogo4">
+                  <ng-container *ngIf="errors">
+                    <div *ngFor="let item of errors | keyvalue"> 
+                        <span class="text-danger" *ngIf="(item.key=='logo')">
+                            {{item.value}}
+                        </span>
+                    </div>
+                  </ng-container>
+                </div>
+                <div class="col-md-6">
+                  <label for="inputOverview4" class="form-label"><strong>Aperçu</strong></label>
+                  <img width="60%" height="60px" [src]="imagSrcBrand" class="card-img-top" alt="...">
+                  </div>
+                <div class="col-12">
+                  <label for="inputAddress" class="form-label"><strong>Description</strong></label>
+                  <angular-editor formControlName="description"></angular-editor>
+                  <ng-container *ngIf="errors">
+                    <div *ngFor="let item of errors | keyvalue"> 
+                        <span class="text-danger" *ngIf="(item.key=='description')">
+                            {{item.value}}
+                        </span>
+                    </div>
+                  </ng-container>
+                </div>
+                <div class="col-12">
+                    <div class="form-check form-switch">
+                        <input formControlName="statut" class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>
+                        <label class="form-check-label" for="flexSwitchCheckChecked">Statut</label>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <button *ngIf="!editBrand" [disabled]="clicked" (click)="registerBrand(); clicked = true;" type="submit" class="btn btn-primary mx-2">Enregistrer</button>
+                    <button *ngIf="editBrand" (click)="saveEditBrand()" type="submit" class="btn btn-warning mx-2">Mettre à jour</button>
+                    <button (click)="resetForm()" type="button" class="btn btn-info">Reset</button>
+                  </div>
+              </form>
+        </div>
+        <div class="col-md-1 text-center">
+            <!-- get vertical line -->
+            <div class="vl"></div>
+        </div>
+        <div class="col-md-7">
+          <h3><strong>Liste de nos marques</strong></h3>
+          <div class="mb-3">
+                <label for="formGroupExampleInput" class="form-label"><strong>Rechercher une marque</strong></label>
+                <input [(ngModel)]="brandFiltering" type="text" class="form-control" id="formGroupExampleInput" placeholder="Entrer le nom de la marque">
+          </div>
+          <table class="table">
+              <thead class="table-danger">
+                <tr>
+                  <th class="col-md-1" scope="col">#</th>
+                  <th class="col-md-3" scope="col">Nom de la marque</th>
+                  <th class="col-md-3" scope="col">Logo</th>
+                  <th class="col-md-2" scope="col">status</th>
+                  <th class="col-md-3" scope="col">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of allBrands | filter: brandFiltering | paginate: { itemsPerPage: 10, currentPage: p, id: 'brandId' } let i=index">
+                  <th scope="row">{{i+1}}</th>
+                  <td>{{item?.name}}</td>
+                  <td>
+                    <img width="60px" height="65px" [src]="url+item?.image" alt="" srcset="">
+                  </td>
+                  <td>
+                    <div class="form-check form-switch">
+                      <input (change)="activeBrand(item.id, $event)" class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" [checked]="item?.statut">
+                    </div>
+                  </td>
+                  <td>
+                      <button (click)="fillInfoEdit(item)" title="Modifier" class="btn btn-warning mx-2 my-2">
+                          <i class='fas fa-pencil-alt' style='font-size:15px;color:white'></i>
+                      </button>
+                      <button (click)="deleteBrand(item)" title="Supprimer" class="btn btn-danger">
+                          <i class='fas fa-trash-alt' style='font-size:15px;color:white'></i>
+                      </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <pagination-controls id="brandId" (pageChange)="p = $event"></pagination-controls>
+        </div>
+    </div>
+</div>

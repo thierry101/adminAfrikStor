@@ -1,0 +1,101 @@
+<div class="container-fluid">
+    <div class="row mt-3">
+        <div class="col-md-4">
+            <h2 class="text-center"><strong>Liste de toutes les couleurs disponibles</strong></h2>
+
+            <div class="mb-3">
+                <label for="formGroupExampleInput" class="form-label"><strong>Rechercher une couleur</strong></label>
+                <input [(ngModel)]="colorFiltering" type="text" class="form-control" id="formGroupExampleInput" placeholder="Entrer le nom de la couleur">
+            </div>
+            <table class="table mt-3">
+                <thead class="table-dark">
+                  <tr>
+                    <th class="col-md-4" scope="col"># {{allColors?.length}} couleurs disponibles </th>
+                    <th  (click)="sort('i')" class="col-md-3" scope="col">
+                        Nom couleur&nbsp;
+                        <i class="fa fa-sort mx-1" style='font-size:20px; color: white;' aria-hidden="true"></i>
+                    </th>
+                    <th class="col-md-5" scope="col">apercu</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of allColors | filter: colorFiltering | paginate: { itemsPerPage: 10, currentPage: p, id: 'colorId' } let i = index">
+                    <th scope="row">{{i+1}}</th>
+                    <td>{{item?.name | titlecase}}</td>
+                    <td>
+                        <input readonly [ngStyle]="{'background-color': item.hex}" type="text" class="form-control" id="inputLogo4">
+                    </td>
+                  </tr>
+                </tbody>
+            </table>
+            <pagination-controls id="colorId" (pageChange)="p = $event"></pagination-controls>
+        </div>
+        
+
+        <div class="col-md-1 text-center">
+            <!-- get vertical line -->
+            <div class="vl"></div>
+        </div>
+
+        <div class="col-md-7">
+            <!-- Button trigger modal -->
+            <button (click)="openModalSize()" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                Ajouter une Taille
+            </button>
+
+             <div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h4 class="modal-title text-uppercase" id="exampleModalLabel"><strong>{{title}}</strong></h4>
+                        </div>
+                        <app-add-edit-siz-col 
+                            (newSize)="addSize($event)" 
+                            [editSize]="editSize"
+                            [itemSizeEdit]="itemToEdit"
+                            >
+                        </app-add-edit-siz-col>
+                    </div>
+                </div>
+            </div>
+            
+            <h2 class="text-center"><strong>Liste de toutes les tailles disponibles</strong></h2>
+
+            <div class="mb-3">
+                <label for="formGroupExampleInput" class="form-label"><strong>Rechercher une taille</strong></label>
+                <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Entrer le nom de la taille">
+            </div>
+            <table class="table mt-3">
+                <thead class="table-dark">
+                  <tr>
+                    <th class="col-md-1" scope="col">#</th>
+                    <th class="col-md-2" scope="col">Nom taille</th>
+                    <th class="col-md-2" scope="col">Statut</th>
+                    <th class="col-md-2" scope="col">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of sizes | filter: sizeFiltering | paginate: { itemsPerPage: 10, currentPage: page, id: 'sizeId' }  let i=index">
+                    <th scope="row">{{i+1}}</th>
+                    <td>{{item?.name | titlecase}}</td>
+                    <td>
+                        <div class="form-check form-switch">
+                            <input (change)="activeSize(item.id, $event)" class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" [checked]="item.statut">
+                        </div>
+                    </td>
+                    <td>
+                        <button (click)="editerSize(item)" data-bs-toggle="modal" data-bs-target="#exampleModal" title="Modifier" class="btn btn-warning withButtoncat mx-2 my-2">
+                            <i class='fas fa-pencil-alt' style='font-size:15px;color:white'></i>
+                        </button>
+                        <button (click)="deleteSize(item)" class="btn btn-danger withButtoncat">
+                            <i class='fas fa-trash-alt' style='font-size:15px;color:white'></i>
+                        </button>
+                    </td>
+                  </tr>
+                </tbody>
+            </table>
+            <pagination-controls id="sizeId" (pageChange)="page = $event"></pagination-controls>
+        </div>
+    </div>
+</div>
+

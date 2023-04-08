@@ -1,0 +1,125 @@
+    
+  <div *ngIf="category" class="modal-body">
+      <form class="row g-3" [formGroup]="formCategory">
+          <div class="col-md-12">
+            <label for="inputTitle4" class="form-label"><strong>Titre catégorie</strong></label>
+            <input formControlName="title" type="text" class="form-control" id="inputTitle4">
+            <ng-container *ngIf="errors">
+              <div *ngFor="let item of errors | keyvalue"> 
+                  <span class="text-danger" *ngIf="(item.key=='title')">
+                      {{item.value}}
+                  </span>
+              </div>
+            </ng-container>
+          </div>
+          <!-- <div class="col-md-6">
+            <label for="inputLogo4" class="form-label"><strong>Logo</strong></label>
+            <input (change)="imagePreview($event)" type="file" class="form-control" id="inputLogo4">
+            <ng-container *ngIf="errors">
+              <div *ngFor="let item of errors | keyvalue"> 
+                  <span class="text-danger" *ngIf="(item.key=='logo')">
+                      {{item.value}}
+                  </span>
+              </div>
+            </ng-container>
+          </div>
+          <div class="col-md-6"></div>
+            <div class="col-md-6">
+            <label for="inputLogoView4" class="form-label"><strong>Aperçu</strong></label>
+              <img width="60%" height="60px" [src]="imagSrc" class="card-img-top" alt="...">
+          </div>
+          <div class="col-md-12">
+            <label for="inputAddress" class="form-label"><strong>Description</strong></label>
+            <angular-editor formControlName="description"></angular-editor>
+            <ng-container *ngIf="errors">
+              <div *ngFor="let item of errors | keyvalue"> 
+                  <span class="text-danger" *ngIf="(item.key=='description')">
+                      {{item.value}}
+                  </span>
+              </div>
+            </ng-container>
+          </div> -->
+          <div class="col-12">
+              <div class="form-check form-switch">
+                  <input formControlName="statut" class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>
+                  <label class="form-check-label" for="flexSwitchCheckChecked">Statut</label>
+              </div>
+          </div>
+      </form>
+
+      <div class="modal-footer">
+        <button (click)="clodeModal()" id="closeModalCategory" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+        <button *ngIf="!editTheCat" (click)="addCatgory(); clicked = true;" [disabled]="clicked" type="button" class="btn btn-primary">Sauvegarder</button>
+        <button *ngIf="editTheCat" (click)="saveEditCategory(); clicked = true;" [disabled]="clicked" type="button" class="btn btn-warning">Mettre à jour</button>
+      </div>
+  </div>
+
+  <div *ngIf="!category" class="modal-body">
+      <form class="row g-3" [formGroup]="formSubCategory">
+          <div class="col-md-12">
+              <label for="inputTitle4" class="form-label"><strong>Sélectionner la catégorie</strong></label>
+              <ng-select [items]="categories" 
+                  bindLabel="name" 
+                  bindValue="id" 
+                  formControlName="category_id">
+              </ng-select>
+              <ng-container *ngIf="errors">
+                <div *ngFor="let item of errors | keyvalue"> 
+                    <span class="text-danger" *ngIf="(item.key=='category_id')">
+                        {{item.value}}
+                    </span>
+                </div>
+              </ng-container>
+          </div>
+          <div class="col-md-12">
+            <label for="inputTitle4" class="form-label"><strong>Titre de la sous-catégorie</strong></label>
+            <input formControlName="title" type="text" class="form-control" id="inputTitle4">
+            <ng-container *ngIf="errors">
+              <div *ngFor="let item of errors | keyvalue"> 
+                  <span class="text-danger" *ngIf="(item.key=='title')">
+                      {{item.value}}
+                  </span>
+              </div>
+            </ng-container>
+          </div>
+          <!-- <div class="col-md-6">
+            <label for="inputLogo4" class="form-label"><strong>Logo</strong></label>
+            <input (change)="imagePreviewSubCat($event)" type="file" class="form-control" id="inputLogo4">
+            <ng-container *ngIf="errors">
+              <div *ngFor="let item of errors | keyvalue"> 
+                  <span class="text-danger" *ngIf="(item.key=='logo')">
+                      {{item.value}}
+                  </span>
+              </div>
+            </ng-container>
+          </div>
+          <div class="col-md-6"></div>
+            <div class="col-md-6">
+            <label for="inputLogoView4" class="form-label"><strong>Aperçu</strong></label>
+              <img width="60%" height="60px" [src]="imagSrcSubCat" class="card-img-top" alt="...">
+          </div>
+          <div class="col-md-12">
+            <label for="inputAddress" class="form-label"><strong>Description</strong></label>
+            <angular-editor formControlName="description"></angular-editor>
+            <ng-container *ngIf="errors">
+              <div *ngFor="let item of errors | keyvalue"> 
+                  <span class="text-danger" *ngIf="(item.key=='description')">
+                      {{item.value}}
+                  </span>
+              </div>
+            </ng-container>
+          </div> -->
+          <div class="col-12">
+              <div class="form-check form-switch">
+                  <input formControlName="statut" class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>
+                  <label class="form-check-label" for="flexSwitchCheckChecked">Statut</label>
+              </div>
+          </div>
+        </form>
+        <div class="modal-footer">
+        <button id="closeModalSubCategory" (click)="clodeModalSubCat()" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+        <button *ngIf="!editTheSubCat" (click)="addSubCatgory(); clicked = true;" [disabled]="clicked" type="button" class="btn btn-primary">Sauvegarder</button>
+        <button *ngIf="editTheSubCat" (click)="saveEditSubCategory(); clicked = true;" [disabled]="clicked" type="button" class="btn btn-warning">Mettre à jour</button>
+        </div>
+  </div>
+

@@ -1,0 +1,30 @@
+<div class="modal-body">
+    <form class="row g-3" [formGroup]="formSize">
+        <div class="col-md-12">
+          <label for="inputTitle4" class="form-label"><strong>Entrer le code de la taille</strong></label>
+          <input formControlName="name" type="text" placeholder="ex : XL" class="form-control" id="inputTitle4">
+          <ng-container *ngIf="errors">
+            <div *ngFor="let item of errors | keyvalue"> 
+                <span class="text-danger" *ngIf="(item.key=='name')">
+                    {{item.value}}
+                </span>
+            </div>
+          </ng-container>
+        </div>
+        
+        <div class="col-12">
+            <div class="form-check form-switch">
+                <input formControlName="statut" class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>
+                <label class="form-check-label" for="flexSwitchCheckChecked">Statut</label>
+            </div>
+        </div>
+      </form>
+      <div class="modal-footer">
+        <button id="closeModalSize" (click)="clodeModal()" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+        <button *ngIf="!editSize" (click)="addSize(); clicked = true;" [disabled]="clicked" type="button" class="btn btn-primary">Sauvegarder</button>
+        <button (click)="editTheSize(); clicked = true;" [disabled]="clicked" *ngIf="editSize" type="button" class="btn btn-warning">Mettre à jour</button>
+        </div>
+</div>
+
+
+    

@@ -1,0 +1,117 @@
+<div class="container-fluid">
+    <div class="row mt-5">
+        <div class="col-md-5">
+            <h3><strong>Créer un coupon</strong></h3>
+            <form [formGroup]="formCoupon" class="row g-3">
+                <div class="col-md-12">
+                  <label for="inputEmail4" class="form-label"><strong>Choisir la commande</strong></label>
+                  <ng-select [items]="users" 
+                    bindLabel="email" 
+                    bindValue="id"
+                    formControlName="userid" 
+                    >
+                  </ng-select>
+                  <ng-container *ngIf="errors">
+                    <div *ngFor="let item of errors | keyvalue"> 
+                        <span class="text-danger" *ngIf="(item.key=='userid')">
+                            {{item.value}}
+                        </span>
+                    </div>
+                  </ng-container>
+                </div>
+                <div class="col-md-12">
+                  <label for="inputCode4" class="form-label"><strong>Code de réduction</strong></label>
+                  <div class="input-group mb-3">
+                    <input formControlName="code" readonly type="text" class="form-control" placeholder="Code de réduction" aria-label="Recipient's username" aria-describedby="button-addon2">
+                    <button (click)="CreateReductionCode()" class="btn btn-outline-info" type="button" id="button-addon2">Générer le code</button>
+                  </div>
+                  <ng-container *ngIf="errors">
+                    <div *ngFor="let item of errors | keyvalue"> 
+                        <span class="text-danger" *ngIf="(item.key=='code')">
+                            {{item.value}}
+                        </span>
+                    </div>
+                  </ng-container>
+                </div>
+                <div class="col-6">
+                  <label for="inputDateBegin" class="form-label"><strong>Date de début</strong></label>
+                  <input formControlName="dateBegin" type="date" class="form-control" id="inputDateBegin">
+                  <ng-container *ngIf="errors">
+                    <div *ngFor="let item of errors | keyvalue"> 
+                        <span class="text-danger" *ngIf="(item.key=='startDate')">
+                            {{item.value}}
+                        </span>
+                    </div>
+                  </ng-container>
+                </div>
+                <div class="col-6">
+                  <label for="inputDateEnd" class="form-label"><strong>Date d'expiration</strong></label>
+                  <input formControlName="dateEnd" type="date" class="form-control" id="inputDateEnd">
+                  <ng-container *ngIf="errors">
+                    <div *ngFor="let item of errors | keyvalue"> 
+                        <span class="text-danger" *ngIf="(item.key=='endDate')">
+                            {{item.value}}
+                        </span>
+                    </div>
+                  </ng-container>
+                </div>
+                <div class="col-md-12">
+                  <label for="inputCity" class="form-label"><strong>Pourcentage de réduction</strong></label>
+                  <input formControlName="reduction" type="number" class="form-control">
+                  <ng-container *ngIf="errors">
+                    <div *ngFor="let item of errors | keyvalue"> 
+                        <span class="text-danger" *ngIf="(item.key=='reduction')">
+                            {{item.value}}
+                        </span>
+                    </div>
+                  </ng-container>
+                </div>
+              
+                <div class="col-12">
+                  <div class="form-check">
+                    <input formControlName="statut" class="form-check-input" type="checkbox" id="gridCheck">
+                    <label class="form-check-label" for="gridCheck">
+                      <strong>Actif ?</strong>
+                    </label>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <button (click)="createCoupon(); clicked = true;" [disabled]="clicked" type="submit" class="btn btn-primary">Enregistrer</button>
+                </div>
+              </form>
+        </div>
+        <div class="col-md-1 text-center">
+            <!-- get vertical line -->
+            <div class="vl"></div>
+        </div>
+        <div class="col-md-6">
+            <h3><strong>Liste des coupons créés</strong></h3>
+            <table class="table table-bordered border-secondary">
+                <thead class="table-dark">
+                  <tr>
+                    <th class="col-md-1" scope="col">#</th>
+                    <th class="col-md-3" scope="col">Propriétaire du coupon</th>
+                    <th class="col-md-2" scope="col">Date début</th>
+                    <th class="col-md-2" scope="col">Date fin</th>
+                    <th class="col-md-2" scope="col">code</th>
+                    <th class="col-md-2" scope="col">Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of coupons let i=index">
+                    <th scope="row">{{i+1}}</th>
+                    <td>{{item?.user?.first_name}} {{item?.user?.last_name}}</td>
+                    <td>{{item?.valid_from}}</td>
+                    <td>{{item?.valid_to}}</td>
+                    <td>{{item?.code}}</td>
+                    <td>
+                      <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" [checked]="item.active">
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+        </div>
+    </div>
+</div>

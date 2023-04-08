@@ -1,0 +1,240 @@
+<div class="container-fluid mt-4">
+    <!-- Button trigger modal -->
+    <button type="button" (click)="addAdmin()" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModalAdmin">
+        Ajouter un admin
+    </button>
+    
+  <!-- Modal -->
+    <div class="modal fade" id="exampleModalAdmin" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header text-center d-block">
+            <h5 class="modal-title text-uppercase" id="exampleModalLabel"><strong>{{title}}</strong></h5>
+            </div>
+            <div class="modal-body">
+                <form class="row g-3" [formGroup]="formRegister">
+                  <!-- *********************************** form for register -->
+                    <div *ngIf="registerUser" class="row">
+                      <div class="col-md-6">
+                        <label for="inputName4" class="form-label"><strong>Nom</strong></label>
+                        <input formControlName="first_name" type="text" class="form-control" id="inputName4">
+                        <ng-container *ngIf="errors">
+                          <div *ngFor="let item of errors | keyvalue"> 
+                              <span class="text-danger" *ngIf="(item.key=='first_name')">
+                                  {{item.value}}
+                              </span>
+                          </div>
+                        </ng-container>
+                      </div>
+                      <div class="col-md-6">
+                        <label for="inputSurname4" class="form-label"><strong>Prénom</strong></label>
+                        <input formControlName="last_name" type="text" class="form-control" id="inputSurname4">
+                        <ng-container *ngIf="errors">
+                          <div *ngFor="let item of errors | keyvalue"> 
+                              <span class="text-danger" *ngIf="(item.key=='last_name')">
+                                  {{item.value}}
+                              </span>
+                          </div>
+                        </ng-container>
+                      </div>
+
+                      <div class="col-md-6">
+                        <label for="inputEmail4" class="form-label"><strong>Email</strong></label>
+                        <input formControlName="email" type="email" class="form-control" id="inputEmail4">
+                        <ng-container *ngIf="errors">
+                          <div *ngFor="let item of errors | keyvalue"> 
+                              <span class="text-danger" *ngIf="(item.key=='email')">
+                                  {{item.value}}
+                              </span>
+                          </div>
+                        </ng-container>
+                      </div>
+                      <div class="col-md-6">
+                          <label for="inputState" class="form-label"><strong>Rôle</strong></label>
+                          <input formControlName="type" list="roles" name="roles" type="text" class="form-control" id="inputTitle4">
+                          <datalist id="roles">
+                              <option *ngFor="let item of roles">{{item | titlecase}}</option>
+                          </datalist>
+                          <ng-container *ngIf="errors">
+                            <div *ngFor="let item of errors | keyvalue"> 
+                                <span class="text-danger" *ngIf="(item.key=='role')">
+                                    {{item.value}}
+                                </span>
+                            </div>
+                          </ng-container>
+                      </div>
+
+                      <div class="col-md-6">
+                        <label for="inputPassword4" class="form-label"><strong>Mot de passe</strong></label>
+                        <input formControlName="password" type="password" class="form-control" id="inputPassword4">
+                        <ng-container *ngIf="errors">
+                          <div *ngFor="let item of errors | keyvalue"> 
+                              <span class="text-danger" *ngIf="(item.key=='password')">
+                                  {{item.value}}
+                              </span>
+                          </div>
+                        </ng-container>
+                      </div>
+                      <div class="col-md-6">
+                          <label for="inputPassword42" class="form-label"><strong>Ressaisir mot de passe</strong></label>
+                          <input formControlName="password_confirm" type="password" class="form-control" id="inputPassword42">
+                          <ng-container *ngIf="errors">
+                            <div *ngFor="let item of errors | keyvalue"> 
+                                <span class="text-danger" *ngIf="(item.key=='password_confirm')">
+                                    {{item.value}}
+                                </span>
+                            </div>
+                          </ng-container>
+                      </div>
+                      
+                      <div class="col-12">
+                        <div class="form-check">
+                          <input formControlName="statut" class="form-check-input" type="checkbox" id="gridCheck">
+                          <label class="form-check-label" for="gridCheck">
+                            <strong>Actif ?</strong>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <!-- ***************************************** form to change information ************************ -->
+                    <div *ngIf="editInfo" class="row">
+                      <div class="col-md-6">
+                        <label for="inputName4" class="form-label"><strong>Nom</strong></label>
+                        <input formControlName="last_name" type="text" class="form-control" id="inputName4">
+                        <ng-container *ngIf="errors">
+                          <div *ngFor="let item of errors | keyvalue"> 
+                              <span class="text-danger" *ngIf="(item.key=='last_name')">
+                                  {{item.value}}
+                              </span>
+                          </div>
+                        </ng-container>
+                      </div>
+                      <div class="col-md-6">
+                        <label for="inputSurname4" class="form-label"><strong>Prénom</strong></label>
+                        <input formControlName="first_name" type="text" class="form-control" id="inputSurname4">
+                        <ng-container *ngIf="errors">
+                          <div *ngFor="let item of errors | keyvalue"> 
+                              <span class="text-danger" *ngIf="(item.key=='first_name')">
+                                  {{item.value}}
+                              </span>
+                          </div>
+                        </ng-container>
+                      </div>
+
+                      <div class="col-md-6">
+                        <label for="inputEmail4" class="form-label"><strong>Email</strong></label>
+                        <input readonly formControlName="email" type="email" class="form-control" id="inputEmail4">
+                        <ng-container *ngIf="errors">
+                          <div *ngFor="let item of errors | keyvalue"> 
+                              <span class="text-danger" *ngIf="(item.key=='email')">
+                                  {{item.value}}
+                              </span>
+                          </div>
+                        </ng-container>
+                      </div>
+                      <div class="col-md-6">
+                          <label for="inputState" class="form-label"><strong>Rôle</strong></label>
+                          <input formControlName="type" list="roles" name="roles" type="text" class="form-control" id="inputTitle4">
+                          <datalist id="roles">
+                              <option *ngFor="let item of roles">{{item | titlecase}}</option>
+                          </datalist>
+                          <ng-container *ngIf="errors">
+                            <div *ngFor="let item of errors | keyvalue"> 
+                                <span class="text-danger" *ngIf="(item.key=='role')">
+                                    {{item.value}}
+                                </span>
+                            </div>
+                          </ng-container>
+                      </div>
+                      <div class="col-12">
+                        <div class="form-check">
+                          <input formControlName="statut" class="form-check-input" type="checkbox" id="gridCheck">
+                          <label class="form-check-label" for="gridCheck">
+                            <strong>Actif ?</strong>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- ******************************************* form to change password *************************** -->
+                    <div *ngIf="editPassword" class="row">
+                      <div class="col-md-6">
+                        <label for="inputPassword4" class="form-label"><strong>Nouveau mot de passe</strong></label>
+                        <input formControlName="password" type="password" class="form-control" id="inputPassword4">
+                        <ng-container *ngIf="errors">
+                          <div *ngFor="let item of errors | keyvalue"> 
+                              <span class="text-danger" *ngIf="(item.key=='password')">
+                                  {{item.value}}
+                              </span>
+                          </div>
+                        </ng-container>
+                      </div>
+                      <div class="col-md-6">
+                          <label for="inputPassword42" class="form-label"><strong>Ressaisir mot de passe</strong></label>
+                          <input formControlName="password_confirm" type="password" class="form-control" id="inputPassword42">
+                          <ng-container *ngIf="errors">
+                            <div *ngFor="let item of errors | keyvalue"> 
+                                <span class="text-danger" *ngIf="(item.key=='password_confirm')">
+                                    {{item.value}}
+                                </span>
+                            </div>
+                          </ng-container>
+                      </div>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+            <button type="button" id="closeModalRegister" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+            <button *ngIf="registerUser" (click)="registerAdmin(); clicked = true;" [disabled]="clicked" type="button" class="btn btn-primary">Enregistrer</button>
+            <button *ngIf="editInfo" (click)="editAdminUser(); clicked = true;" [disabled]="clicked" type="button" class="btn btn-warning">Mettre à jour</button>
+            <button *ngIf="editPassword" (click)="editAdminPassword(); clicked = true;" [disabled]="clicked" type="button" class="btn btn-info">Modifier mot de passe</button>
+            </div>
+        </div>
+        </div>
+    </div>
+    <div class="mt-5">
+      <label for="formGroupExampleInput2" class="form-label"><h3><strong>Rechercher un nom</strong></h3></label>
+      <input type="text" class="form-control" [(ngModel)]="adminFiltering" id="formGroupExampleInput2" placeholder="Entrer le mot à rechercher">
+    </div>
+    <table class="table mt-1">
+        <thead class="table-success">
+          <tr>
+            <th class="col-md-1" scope="col">#</th>
+            <th class="col-md-2" scope="col">Nom</th>
+            <th class="col-md-2" scope="col">Prénom</th>
+            <th class="col-md-2" scope="col">Email</th>
+            <th class="col-md-2" scope="col">Rôle</th>
+            <th class="col-md-1" scope="col">Statut</th>
+            <th class="col-md-2" scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of allUsers | filter: adminFiltering | paginate: { itemsPerPage: 15, currentPage: p, id: 'adminId' } let i=index">
+            <th scope="row">{{i+1}}</th>
+            <td>{{item?.last_name}}</td>
+            <td>{{item?.first_name}}</td>
+            <td>{{item?.email}}</td>
+            <td>{{item?.role}}</td>
+            <td>
+              <div class="form-check form-switch">
+                <input (change)="changeStatutUser(item, $event)" class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" [checked]="item.statut">
+              </div>
+            </td>
+            <td>
+                <button (click)="fillInfoToEdit(item)" style='font-size:15px;' data-bs-toggle="modal" data-bs-target="#exampleModalAdmin" title="Modifier" class="btn btn-warning mx-2 my-2">
+                    <i class='fas fa-pencil-alt' style='font-size:15px;color:white'></i>
+                </button>
+                <button data-bs-toggle="modal" data-bs-target="#exampleModalAdmin" (click)="fillEditPassword(item)" style='font-size:15px;' title="Changer mot de passe" class="btn btn-info mx-2 my-2">
+                  <i class="fa fa-key" style='font-size:15px;color:white' aria-hidden="true"></i>
+                </button>
+                <button (click)="deleteUser(item)" style='font-size:15px;' title="Supprimer" class="btn btn-danger">
+                    <i class='fas fa-trash-alt' style='font-size:15px;color:white'></i>
+                </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <pagination-controls id="adminId" (pageChange)="p = $event"></pagination-controls>
+    </div>

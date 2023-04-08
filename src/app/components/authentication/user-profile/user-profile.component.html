@@ -1,0 +1,154 @@
+<div class="container-fluid rounded bg-white mt-5 mb-5">
+    <div class="row">
+        <div class="col-md-4 border-right">
+            <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+                <img class="rounded-circle mt-5" width="150px" [src]="imagSrcProfile">
+                <span class="font-weight-bold"><strong>{{user?.first_name}} {{user?.last_name}}</strong></span>
+                <span class="text-black-50">{{user?.email}}</span>
+                <span> 
+                    <div class="input-group mb-3">
+                        <label (change)="imagePreviewProfile($event)" class="btn btn-info">
+                            <i class="fa fa-image"></i> Choisir une image<input type="file" style="display: none;" name="image">
+                        </label>
+                        <button (click)="editImgProfile(user)" class="btn btn-warning inputFileButton" type="button" id="button-addon2">Mettre à jour</button>
+                    </div>
+                    <ng-container *ngIf="errors">
+                    <div *ngFor="let item of errors | keyvalue"> 
+                        <span class="text-danger" *ngIf="(item.key=='image')">
+                            {{item.value}}
+                        </span>
+                    </div>
+                    </ng-container>
+                </span>
+            </div>
+        </div>
+
+        <div class="col-md-8 border-right">
+            <form [formGroup]="formProfile" class="row g-3">
+                <h3>Modifier mes informations</h3><br>
+                <!-- <div class="col-md-6">
+                    <label for="inputName4" class="form-label"><strong>Nom Boutique</strong></label>
+                    <input formControlName="shop" type="text" class="form-control" id="inputName4">
+                    <ng-container *ngIf="errors">
+                        <div *ngFor="let item of errors | keyvalue"> 
+                            <span class="text-danger" *ngIf="(item.key=='name')">
+                                {{item.value}}
+                            </span>
+                        </div>
+                    </ng-container>
+                </div> -->
+                <div class="col-md-6">
+                    <label for="inputName4" class="form-label"><strong>Nom</strong></label>
+                    <input formControlName="name" type="text" class="form-control" id="inputName4">
+                    <ng-container *ngIf="errors">
+                        <div *ngFor="let item of errors | keyvalue"> 
+                            <span class="text-danger" *ngIf="(item.key=='name')">
+                                {{item.value}}
+                            </span>
+                        </div>
+                    </ng-container>
+                </div>
+                <div class="col-md-6">
+                    <label for="inputSurname4" class="form-label"><strong>Prénom</strong></label>
+                    <input formControlName="surname" type="text" class="form-control" id="inputSurname4">
+                    <ng-container *ngIf="errors">
+                        <div *ngFor="let item of errors | keyvalue"> 
+                            <span class="text-danger" *ngIf="(item.key=='surname')">
+                                {{item.value}}
+                            </span>
+                        </div>
+                    </ng-container>
+                </div>
+
+                <div class="col-md-6">
+                  <label for="inputEmail4" class="form-label"><strong>Email</strong></label>
+                  <input formControlName="email" readonly type="email" class="form-control" id="inputEmail4">
+                </div>
+                <div class="col-md-6">
+                    <label for="inputRole4" class="form-label"><strong>Role</strong></label>
+                    <input formControlName="role"  readonly type="text" class="form-control" id="inputRole4">
+                </div>
+
+                <div class="col-md-6">
+                    <label for="inputPhone4" class="form-label"><strong>Numéro de téléphone</strong></label>
+                    <input formControlName="phone" type="tel" class="form-control" id="inputPhone4">
+                    <ng-container *ngIf="errors">
+                        <div *ngFor="let item of errors | keyvalue"> 
+                            <span class="text-danger" *ngIf="(item.key=='phone')">
+                                {{item.value}}
+                            </span>
+                        </div>
+                    </ng-container>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="inputPhone4" class="form-label"><strong>Numéro Mobile Money</strong></label>
+                    <input formControlName="mobileMoney" type="tel" class="form-control" id="inputPhone45">
+                    <ng-container *ngIf="errors">
+                        <div *ngFor="let item of errors | keyvalue"> 
+                            <span class="text-danger" *ngIf="(item.key=='mobileMoney')">
+                                {{item.value}}
+                            </span>
+                        </div>
+                    </ng-container>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="inputStatut4" class="form-label"><strong>Statut</strong></label>
+                    <div *ngIf="formProfile.get('statut')?.value" class="form-check form-switch">
+                        <input disabled class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked>
+                        <label class="form-check-label" for="flexSwitchCheckChecked">Actif</label>
+                    </div>
+                    <div *ngIf="!formProfile.get('statut')?.value" class="form-check form-switch">
+                        <input disabled class="form-check-input" type="checkbox" id="flexSwitchCheckChecked">
+                        <label class="form-check-label" for="flexSwitchCheckChecked">Inactif</label>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <button (click)="editInformation(user)" type="submit" class="btn btn-warning">Mettre à jour</button>
+                  </div>
+                <hr>
+                <h3>Modifier mot de passe</h3><br>
+                <div class="col-md-12">
+                  <label for="inputPassword4" class="form-label"><strong>Ancien mot de passe</strong></label>
+                  <input formControlName="password1" type="password" class="form-control" id="inputPassword4">
+                  <ng-container *ngIf="errors">
+                    <div *ngFor="let item of errors | keyvalue"> 
+                        <span class="text-danger" *ngIf="(item.key=='password')">
+                            {{item.value}}
+                        </span>
+                    </div>
+                </ng-container>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="inputPassword43" class="form-label"><strong>Nouveau mot de passe</strong></label>
+                    <input formControlName="password2" type="password" class="form-control" id="inputPassword43">
+                    <ng-container *ngIf="errors">
+                        <div *ngFor="let item of errors | keyvalue"> 
+                            <span class="text-danger" *ngIf="(item.key=='password2')">
+                                {{item.value}}
+                            </span>
+                        </div>
+                    </ng-container>
+                </div>
+                <div class="col-md-6">
+                    <label for="inputPassword45" class="form-label"><strong>Ressaisir mot de passe</strong></label>
+                    <input formControlName="password3" type="password" class="form-control" id="inputPassword45">
+                    <ng-container *ngIf="errors">
+                        <div *ngFor="let item of errors | keyvalue"> 
+                            <span class="text-danger" *ngIf="(item.key=='password3')">
+                                {{item.value}}
+                            </span>
+                        </div>
+                    </ng-container>
+                </div>                
+                <div class="col-12">
+                  <button (click)="editPassword(user)" type="submit" class="btn btn-warning">Mettre à jour</button>
+                </div>
+            </form>
+        </div>
+
+
+    </div>
+</div>

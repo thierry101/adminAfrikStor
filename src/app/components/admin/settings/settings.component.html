@@ -1,0 +1,100 @@
+<div class="container-fluid mt-3">
+    <h1 class="text-center text-uppercase"><strong>Modifier les paramètres du site internet</strong></h1>
+    <div class="row mt-3">
+      <form class="row g-3" [formGroup]="formSetting">
+        <div class="col-md-6">
+          <h3><strong>Modifier le logo</strong></h3>
+          <div class="card" style="width: 18rem;">
+              <img width="100%" height="150px" [src]="imagSrcLogo" class="card-img-top" alt="...">
+              <div class="card-body">
+                <label (change)="imagePreviewLogo($event)" class="btn btn-info">
+                  <i class="fa fa-image"></i> Choisir une image<input type="file" style="display: none;" name="image">
+                </label>
+                <ng-container *ngIf="errors">
+                  <div *ngFor="let item of errors | keyvalue"> 
+                      <span class="text-danger" *ngIf="(item.key=='logo')">
+                          {{item.value}}
+                      </span>
+                  </div>
+                </ng-container>
+                  <a (click)="editLogoSite(); clicked = true;" [class.disabled]="clicked" class="btn btn-warning buttonUpdata mt-1">Mettre à jour</a>
+              </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <h3><strong>Modifier le favicon</strong></h3>
+          <div class="card" style="width: 18rem;">
+            <img width="100%" height="150px" [src]="imagSrcFav" class="card-img-top" alt="...">
+            <div class="card-body">
+              <label (change)="imagePreviewFavIco($event)" class="btn btn-info">
+                <i class="fa fa-image"></i> Choisir une image<input type="file" style="display: none;" name="image">
+              </label>
+              <ng-container *ngIf="errors">
+                <div *ngFor="let item of errors | keyvalue"> 
+                    <span class="text-danger" *ngIf="(item.key=='fav_icon')">
+                        {{item.value}}
+                    </span>
+                </div>
+              </ng-container>
+              <a (click)="editFavIcoSite(); clicked = true;" [class.disabled]="clicked" class="btn btn-warning buttonUpdata mt-1">Mettre à jour</a>
+            </div>
+          </div>
+        </div>
+
+        <hr class="mt-3" style="background-color: mediumorchid;">
+        <h3><strong>Modifier les informations</strong></h3>
+            <div class="col-md-6">
+                <label for="inputPhone4" class="form-label"><strong>Numéro de téléphone</strong></label>
+                <input formControlName="phone" type="tel" class="form-control" id="inputPhone4">
+                <ng-container *ngIf="errors">
+                  <div *ngFor="let item of errors | keyvalue"> 
+                      <span class="text-danger" *ngIf="(item.key=='phone')">
+                          {{item.value}}
+                      </span>
+                  </div>
+                </ng-container>
+            </div>
+            <div class="col-md-6">
+                <label for="inputEmail4" class="form-label"><strong>Email</strong></label>
+                <input formControlName="email" type="email" class="form-control" id="inputEmail4">
+                <ng-container *ngIf="errors">
+                  <div *ngFor="let item of errors | keyvalue"> 
+                      <span class="text-danger" *ngIf="(item.key=='email')">
+                          {{item.value}}
+                      </span>
+                  </div>
+                </ng-container>
+            </div>
+
+            <div class="col-md-6">
+              <label for="inputLocalisation4" class="form-label"><strong>Localisation</strong></label>
+              <input formControlName="localisation" type="email" class="form-control" id="inputLocalisation4">
+            </div>
+            <div class="col-md-6">
+              <label for="inputWhatsapp4" class="form-label"><strong>Lien whatsapp</strong></label>
+              <input formControlName="link_whatsapp" type="text" class="form-control" id="inputWhatsapp4">
+            </div>
+
+            <div class="col-md-6">
+                <label for="inputMessenger4" class="form-label"><strong>Lien messenger</strong></label>
+                <input formControlName="link_messenger" type="text" class="form-control" id="inputMessenger4">
+            </div>
+            <div class="col-md-6">
+              <label for="inputFacebook4" class="form-label"><strong>Lien Facebook</strong></label>
+              <input formControlName="link_facebook" type="text" class="form-control" id="inputFacebook4">
+            </div>
+            <div class="col-md-6">
+              <label for="inputFacebook4" class="form-label"><strong>MTN Money</strong></label>
+              <input formControlName="mtnMoney" type="text" class="form-control" id="inputFacebook4">
+            </div>
+            <div class="col-md-6">
+              <label for="inputFacebook4" class="form-label"><strong>Orange Money</strong></label>
+              <input formControlName="orangeMoney" type="text" class="form-control" id="inputFacebook4">
+            </div>
+            <div class="col-12">
+              <button (click)="editInformationSite(); clicked = true;" [disabled]="clicked" type="submit" class="btn btn-warning buttonUpdata">Mettre à jour</button>
+            </div>
+      </form>
+    </div>
+</div>

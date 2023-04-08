@@ -1,0 +1,180 @@
+<div class="container-fluid mt-4">
+    <h2 class="text-center text-uppercase"><strong>Liste des produits à valider</strong></h2>
+
+    <div class="mb-1">
+      <label for="formGroupExampleInput" class="form-label"><strong>Rechercher un article</strong></label>
+      <input [(ngModel)]="validFiltering" type="text" class="form-control" id="formGroupExampleInput" placeholder="Entrer le mot à rechercher">
+    </div>
+
+    <table class="table">
+        <thead>
+          <tr>
+            <th class="col-md-1" scope="col">#</th>
+            <th class="col-md-1.5" scope="col">Catégorie</th>
+            <th class="col-md-2" scope="col">Sous-catégorie</th>
+            <th class="col-md-2" scope="col">Nom de l'article</th>
+            <th class="col-md-2" scope="col">Photo Principale</th>
+            <th class="col-md-1.5" scope="col">validé ou pas</th>
+            <th class="col-md-2" scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of products | filter: validFiltering | paginate: { itemsPerPage: 10, currentPage: p, id: 'validateId'} let i=index">
+            <th scope="row">{{i+1}}</th>
+            <td>{{item.category?.name}}</td>
+            <td>{{item.subCategory?.name}}</td>
+            <td>{{item?.title}}</td>
+            <td>
+              <img width="60px" height="65px" [src]="item?.mainImg | image" alt="" srcset="">
+            </td>
+            <td>
+              <div class="form-check form-switch">
+                <input disabled class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" [checked]="item?.validateProd">
+              </div>
+            </td>
+            <td>
+                <button (click)="validateProduct(item)" data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-info mx-2 withButton">
+                    <span><i class='far fa-eye mx-1' style='font-size:20px'></i></span>
+                    <span>Voir</span>
+                </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <pagination-controls id="validateId" (pageChange)="p = $event"></pagination-controls>
+</div>
+
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header text-center d-block">
+          <h4 class="modal-title text-uppercase" id="exampleModalLabel"><strong>Validation de l'article nom de l'article
+        </strong></h4>
+        </div>
+        <div class="modal-body">
+            <form class="row g-3">
+                <div class="col-md-12">
+                    <div class="form-check form-switch">
+                        <input disabled class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" [checked]="product?.availability">
+                        <label class="form-check-label" for="flexSwitchCheckChecked">L'aticle {{product?.title}} de la boutique nom_boutique est en stock ?</label>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                  <label for="inputCategory4" class="form-label"><strong>Catégorie</strong></label>
+                  <input readonly type="text" value="{{product?.category?.name}}" class="form-control" id="inputCategory4">
+                </div>
+                <div class="col-md-2">
+                    <label for="inputSubCategory4" class="form-label"><strong>Sous-catégorie</strong></label>
+                    <input readonly type="text" value="{{product?.subCategory?.name}}" class="form-control" id="inputSubCategory4">
+                </div>
+                <div class="col-md-2">
+                    <label for="inputBrand4" class="form-label"><strong>Marque</strong></label>
+                    <input readonly type="text" value="{{product?.brand?.name}}" class="form-control" id="inputBrand4">
+                </div>
+                <div class="col-md-2">
+                    <label for="inputTitle4" class="form-label"><strong>Nom de l'artile</strong></label>
+                    <input readonly type="text" value="{{product?.title}}" class="form-control" id="inputTitle4">
+                </div>
+                <div class="col-md-2">
+                    <label for="inputPrice4" class="form-label"><strong>Prix</strong></label>
+                    <input readonly type="text" value="{{product?.price}}" class="form-control" id="inputPrice4">
+                </div>
+                <div class="col-md-2">
+                    <label for="inputSoldPrice4" class="form-label"><strong>Prix solde</strong></label>
+                    <input readonly type="text" value="{{product?.sold_price}}" class="form-control" id="inputSoldPrice4">
+                </div>
+                <hr class="dropdown-divider" style="background-color: blue;">
+                <div class="col-md-2">
+                    <label for="inputMainImg4" class="form-label"><strong>Image principale</strong></label>
+                    <img width="60px" height="65px" [src]="product?.mainImg | image" alt="" srcset="">
+                </div>
+                <div class="col-md-2">
+                  <label for="inputSecondImg4" class="form-label"><strong>Image secondaire</strong></label>
+                  <img width="60px" height="65px" [src]="product?.secondImg | image" alt="" srcset="">
+              </div>
+                <div class="col-md-8">
+                    <label for="inputSolOldImg" class="form-label"><strong>Autres images</strong></label>
+                    <div class="d-flex flex-wrap flex-row bd-highlight mb-3">
+                        <div class="p-2 bd-highlight" *ngFor="let item of otherImagSrcProduct">
+                          <img width="100px" height="60px" [src]="item.file | multiImg" alt="" srcset="">
+                        </div>
+                      </div>
+                </div>
+                <hr class="dropdown-divider" style="background-color: blue;">
+
+                <div class="col-md-4" *ngIf="sizes.length>0">
+                    <label for="inputSize4" class="form-label"><strong>Taile disponible</strong></label>
+                    <div class="d-flex flex-wrap flex-row bd-highlight mb-3">
+                      <div class="p-2 bd-highlight" *ngFor="let item of sizes">
+                        <input value="{{item.name}}" readonly type="text" class="form-control inputSize" id="inputSize4">
+                      </div>
+                    </div>
+                </div>
+                <div class="col-md-8" *ngIf="colors.length>0">
+                    <label for="inputSoldColor4" class="form-label"><strong>Couleur disponible</strong></label>
+                    <div class="d-flex flex-wrap flex-row bd-highlight mb-3">
+                      <div class="p-2 bd-highlight" *ngFor="let item of colors">
+                        <input [ngStyle]="{'background-color': item.hex}" value="{{item.name}}" readonly type="text" class="form-control inputColor" id="inputSize4">
+                      </div>
+                    </div>
+                </div>
+                <div class="col-md-12" *ngIf="colorImagSrcProduct.length>0">
+                  <label for="inputSoldColor4" class="form-label"><strong>Images couleurs</strong></label>
+                  <div class="d-flex flex-wrap flex-row bd-highlight mb-3">
+                    <div class="p-2 bd-highlight" *ngFor="let item of colorImagSrcProduct" >
+                      <div class="input-group mb-3">
+                        <span [ngStyle]="{'background-color': item.hex}" class="input-group-text" id="basic-addon3">{{item?.name}}</span>
+                        <img width="150px" class="form-control" height="80px" [src]="item.img | multiImg" alt="" srcset="">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                    <label for="inputDescription4" class="form-label"><strong>Description</strong></label>
+                    <div class="form-floating">
+                      <textarea readonly class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px">{{product?.description}} </textarea>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+          <button id="closeModalProduct" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+          <button data-bs-toggle="modal" (click)="reserModal()" data-bs-target="#exampleModalRejet" type="button" class="btn btn-danger">Suspendre</button>
+          <button id="buttonSendd" value="true" (click)="sendStatutValidate(product, $event); clicked = true;" [disabled]="clicked" type="button" class="btn btn-primary">Valider</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="exampleModalRejet" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header text-center">
+          <h3 class="modal-title" id="exampleModalLabel"><strong>Raison de rejet de l'article <br> {{product?.title}}</strong></h3>
+        </div>
+        <div class="modal-body">
+            <div class="mb-3">
+                <label for="formGroupExampleInput" class="form-label"><strong>Envoyez un mail à l'adresse :</strong> </label>
+                <input value="{{product?.user?.email}}" readonly type="text" class="form-control" id="formGroupExampleInput">
+              </div>
+              <div class="mb-3">
+                <label for="formGroupExampleInput2" class="form-label"><strong>Spécifier la raison du rejet</strong></label>
+                <angular-editor [(ngModel)]="textRejet"></angular-editor>
+                <ng-container *ngIf="errors">
+                  <div *ngFor="let item of errors | keyvalue"> 
+                      <span class="text-danger" *ngIf="(item.key=='message')">
+                          {{item.value}}
+                      </span>
+                  </div>
+              </ng-container> 
+              </div>
+        </div>
+        <div class="modal-footer">
+          <button id="modalProdRejet" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+          <button id="buttonSend" value="false" (click)="sendStatutValidate(product, $event); clicked = true;" [disabled]="clicked" type="button" class="btn btn-primary">Envoyer</button>
+        </div>
+      </div>
+    </div>
+  </div>

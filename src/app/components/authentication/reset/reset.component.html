@@ -1,0 +1,38 @@
+<div class="container mt-5">
+    <div class="row centerElmnt">
+        <div class="col-md-5 mt-5 mx-2">
+            <img width="100%" height="350px" src="assets/img/image.jpeg" alt="">
+        </div>
+        <div class="col-md-5 mt-5 mx-2">
+            <form class="row g-3" [formGroup]="formSetPassword">
+                <div class="col-md-10">
+                  <label for="inputPassword41" class="form-label"><strong>Mot de passe</strong></label>
+                  <input formControlName="password" type="password" class="form-control" id="inputPassword41">
+                  <ng-container *ngIf="errors">
+                    <div *ngFor="let item of errors | keyvalue"> 
+                        <span class="text-danger" *ngIf="(item.key=='password')">
+                            {{item.value}}
+                        </span>
+                    </div>
+                  </ng-container>
+                </div>
+                
+                <div class="col-md-10">
+                    <label for="inputPassword42" class="form-label"><strong>Ressaisir mot de passe</strong></label>
+                    <input formControlName="password_confirm" type="password" class="form-control" id="inputPassword42">
+                    <ng-container *ngIf="errors">
+                      <div *ngFor="let item of errors | keyvalue"> 
+                          <span class="text-danger" *ngIf="(item.key=='password_confirm')">
+                              {{item.value}}
+                          </span>
+                      </div>
+                    </ng-container>
+                  </div>
+               
+                <div class="col-12">
+                  <button (click)="createNewPassword()" class="btn btn-primary btn1">Créer nouveau mot de passe</button>
+                </div>
+              </form>
+        </div>
+    </div>
+</div>

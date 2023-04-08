@@ -1,0 +1,133 @@
+<div class="container-fluid mt-3">
+    <h1 class="text-center text-uppercase"><strong>Gestion des publicités</strong></h1>
+    <div class="row">
+        <div class="col-md-5">
+            <h4><strong>Enregistrer une publicité</strong></h4>
+            <form class="row g-3" [formGroup]="formAdvertising">
+
+                <div class="col-md-6">
+                  <label for="inputName4" class="form-label"><strong>Nom de la pub</strong></label>
+                  <input formControlName="title" type="text" class="form-control" id="inputName4">
+                  <ng-container *ngIf="errors">
+                    <div *ngFor="let item of errors | keyvalue"> 
+                        <span class="text-danger" *ngIf="(item.key=='title')">
+                            {{item.value}}
+                        </span>
+                    </div>
+                  </ng-container>
+                </div>
+
+                <div class="col-md-6">
+                  <label for="inputPassword4" class="form-label"><strong>Choisir la marque</strong></label>
+                  <ng-select [items]="allBrands" 
+                    bindLabel="name" 
+                    bindValue="id"
+                    formControlName="brand_id"
+                    >
+                </ng-select>
+                <ng-container *ngIf="errors">
+                  <div *ngFor="let item of errors | keyvalue"> 
+                      <span class="text-danger" *ngIf="(item.key=='brand_id')">
+                          {{item.value}}
+                      </span>
+                  </div>
+                </ng-container>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="inputDateIn" class="form-label"><strong>Date de début</strong></label>
+                    <input formControlName="beginDate" type="date" class="form-control" id="inputDateIn">
+                    <ng-container *ngIf="errors">
+                      <div *ngFor="let item of errors | keyvalue"> 
+                          <span class="text-danger" *ngIf="(item.key=='startDate')">
+                              {{item.value}}
+                          </span>
+                      </div>
+                    </ng-container>
+                </div>
+
+                <div class="col-md-6">
+                  <label for="inputDateOut" class="form-label"><strong>Date de fin</strong></label>
+                  <input formControlName="endDate" type="date" class="form-control" id="inputDateOut">
+                  <ng-container *ngIf="errors">
+                    <div *ngFor="let item of errors | keyvalue"> 
+                        <span class="text-danger" *ngIf="(item.key=='endDtate')">
+                            {{item.value}}
+                        </span>
+                    </div>
+                  </ng-container>
+              </div>
+
+                <div class="col-6">
+                  <label for="inputBaniere" class="form-label"><strong>Charger la banière</strong></label>
+                  <input (change)="imagePreviewAdvert($event)" type="file" class="form-control" id="inputBaniere">
+                  <ng-container *ngIf="errors">
+                    <div *ngFor="let item of errors | keyvalue"> 
+                        <span class="text-danger" *ngIf="(item.key=='banner')">
+                            {{item.value}}
+                        </span>
+                    </div>
+                  </ng-container>
+                </div>
+                <div class="col-6">
+                    <label for="inputAddress" class="form-label"><strong>Aperçu</strong></label>
+                    <img id="inputOverview1" class="form-control" width="100px" height="80px" [src]="imagSrcAdvert" alt="" srcset=""> 
+                  </div>
+
+                <div class="col-12">
+                    <div class="form-check form-switch">
+                        <input formControlName="statut" class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>
+                        <label class="form-check-label" for="flexSwitchCheckChecked">Activer</label>
+                    </div>
+                </div>
+                <div class="col-12">
+                  <button *ngIf="!editOrNot" (click)="saveAdvert(); clicked = true;" [disabled]="clicked" type="submit" class="btn btn-primary">Enregistrer</button>
+                  <button *ngIf="editOrNot" (click)="editAdvert(); clicked = true;" [disabled]="clicked" type="submit" class="btn btn-warning">Modifier</button>
+                  <button (click)="resetForm()" type="submit" class="btn btn-info mx-2">Reset</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="col-md-7">
+            <h4><strong>Liste des publicités</strong></h4>
+            <div class="mb-1">
+              <label for="formGroupExampleInput" class="form-label"><strong>Rechercher une publicité</strong></label>
+              <input [(ngModel)]="advertFiltering" type="text" class="form-control" id="formGroupExampleInput" placeholder="Entrer le nom de la publicité">
+            </div>
+            <table class="table">
+                <thead class="table-success">
+                  <tr>
+                    <th class="col-md-1" scope="col">#</th>
+                    <th class="col-md-2" scope="col">Titre de la pub</th>
+                    <th class="col-md-2" scope="col">Marque</th>
+                    <th class="col-md-2" scope="col">Date de fin</th>
+                    <th class="col-md-3" scope="col">Statut</th>
+                    <th class="col-md-2" scope="col">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of allAdverts | filter: advertFiltering | paginate: { itemsPerPage: 10, currentPage: p, id: 'advertId' } let i=index">
+                    <th scope="row">{{i+1}}</th>
+                    <td>{{item?.title}}</td>
+                    <td>{{item.brand?.name}}</td>
+                    <td>{{item?.end_date}}</td>
+                    <td>
+                      <div class="form-check form-switch">
+                        <input (change)="activeAdvert(item.id, $event)" class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" [checked]="item?.statut">
+                      </div>
+                    </td>
+                    <td>
+                      <button (click)="fillEditItem(item)" title="Modifier" class="btn btn-warning mx-2 my-2">
+                          <i class='fas fa-pencil-alt' style='font-size:15px;color:white'></i>
+                      </button>
+                      <button (click)="deleteAdvert(item)" class="btn btn-danger">
+                          <i class='fas fa-trash-alt' style='font-size:15px;color:white'></i>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <pagination-controls id="advertId" (pageChange)="p = $event"></pagination-controls>
+        </div>
+    </div>
+</div>

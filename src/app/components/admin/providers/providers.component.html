@@ -1,0 +1,54 @@
+<div class="container-fluid mt-4">
+    <div class="mt-5">
+      <label for="formGroupExampleInput2" class="form-label"><h3><strong>Rechercher un fournisseur</strong></h3></label>
+      <input type="text" class="form-control" [(ngModel)]="providerFiltering" id="formGroupExampleInput2" placeholder="Entrer le mot à rechercher">
+    </div>
+    <table class="table mt-1">
+      <thead class="table-success">
+        <tr>
+          <th class="col-md-1" scope="col">#</th>
+          <th class="col-md-1" scope="col">Nom et prénom</th>
+          <th class="col-md-1" scope="col">marque</th>
+          <th class="col-md-1" scope="col">Photo</th>
+          <th class="col-md-1.5" scope="col">Email</th>
+          <th class="col-md-2.5" scope="col">Pays(Ville)</th>
+          <th class="col-md-0.8" scope="col">Statut</th>
+          <!-- <th class="col-md-1.2" scope="col">Etat</th> -->
+          <th class="col-md-2" scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of providers | filter: providerFiltering | paginate: { itemsPerPage: 15, currentPage: p, id: 'providerId' } let i=index">
+          <th scope="row">{{i+1}}</th>
+          <td>{{item?.last_name}} {{item?.first_name}}</td>
+          <td>{{item?.brand?.name}}</td>
+          <td>
+            <img width="60px" height="60px" [src]="item?.brand?.image | image" class="card-img-top" alt="...">
+          </td>
+          <td>{{item?.email}}</td>
+          <td>{{item?.country}} ({{item?.city}})</td>
+          <td>
+            <div class="form-check form-switch">
+              <input (change)="changeStatutProvider(item, $event)" class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" [checked]="item?.statut">
+            </div>
+          </td>
+          <!-- <td>
+            <select (change)="changeStateProvider(item, $event)" class="form-select">
+              <option [selected]="item?.state=='Ouvert'">Ouvert </option>
+              <option [selected]="item?.state=='En attente'">En attente</option>
+              <option [selected]="item?.state=='Validé'">Validé</option>
+            </select>
+          </td> -->
+          <td>
+            <!-- <button (click)="fillInfoToEdit(item)" data-bs-toggle="modal" data-bs-target="#exampleModalProvider" title="Modifier" class="btn btn-warning mx-2 my-2">
+                <i class='fas fa-pencil-alt' style='font-size:20px;color:white'></i>
+            </button> -->
+            <button class="btn btn-danger" title="Supprimer" (click)="deleteProvider(item)">
+                <i class='fas fa-trash-alt' style='font-size:20px;color:white'></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <pagination-controls id="providerId" (pageChange)="p = $event"></pagination-controls>
+  </div>

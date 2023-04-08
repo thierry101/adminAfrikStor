@@ -23,7 +23,9 @@ jobs:
           key: ng-project-{{ .Branch }}-{{ checksum "package-lock.json" }}
           paths:
             - "node_modules"
-     
+      # - run:
+      #     name: "Run test"
+      #     command: npm run test
       - run:
           name: "Build application for production"
           command: npm run build

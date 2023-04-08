@@ -15,7 +15,7 @@
           </ng-container>
             <form class="row g-3" [formGroup]="formLogin">
                 <div class="col-md-10">
-                  <label for="inputEmail4" class="form-label"><strong>Adresse Email</strong></label>
+                  <label for="inputEmail4" class="form-label"><strong>Adresse Emails</strong></label>
                   <input formControlName="email" type="email" class="form-control" id="inputEmail4">
                   <ng-container *ngIf="errors">
                     <div *ngFor="let item of errors | keyvalue"> 

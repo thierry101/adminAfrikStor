@@ -21,7 +21,12 @@ export class SidebarComponent implements OnInit {
     this.role = this.authService.getRole()
     this.authService.user().subscribe(res => {
       this.user = res
-      this.imagSrcProfil = this.url + res?.image
+      if (res.image) {
+        this.imagSrcProfil = this.url + res?.image
+      }
+      else{
+        this.imagSrcProfil = 'assets/img/profile.jpg';
+      }
     })
   }
 
@@ -29,5 +34,4 @@ export class SidebarComponent implements OnInit {
   closeCanvas() {
     document.getElementById('idToCloseOffcanva')?.click()
   }
-
 }

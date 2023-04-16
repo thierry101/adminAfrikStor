@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { Router } from '@angular/router';
 import { PublicService } from 'src/app/services/public.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-navbar',
@@ -12,6 +13,8 @@ export class NavbarComponent implements OnInit {
 
   name!: string;
   authenticated: boolean = false
+  url: string = environment.API;
+  imagSrcProfil: string = 'assets/img/profile.jpg';
 
   constructor(private authService: AuthenticationService,
     private router: Router, public publicService: PublicService) { }
@@ -34,5 +37,4 @@ export class NavbarComponent implements OnInit {
       this.router.navigate(['/login'])
     })
   }
-
 }

@@ -1,6 +1,6 @@
 <div class="offcanvas offcanvas-start sidebar-nav" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
     <div class="offcanvas-header">
-        <img [src]="imagSrcProfil" class="rounded-circle" alt="Cinque Terre" width="150px" height="150px"> 
+        <img [src]="imagSrcProfil" class="rounded-circle" width="150px" height="150px"> 
         <button id="idToCloseOffcanva" type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <a (click)="closeCanvas()" [routerLink]="['/user-profile']" routerLinkActive="router-link-active" >
@@ -29,7 +29,7 @@
               <li (click)="closeCanvas()"><a class="dropdown-item" [routerLink]="['/admin-site/blog']" routerLinkActive="active" >Editer blog</a></li>
             </ul>
           </li>
-          <li class="nav-item dropdown">
+          <li *ngIf="role=='Admin' || role=='Root'" class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               <span class="mx-2"><i class='fab fa-product-hunt' style='font-size:20px; color: white;'></i></span>
               <span>Produits</span>
@@ -40,11 +40,13 @@
               <li *ngIf="role=='Admin' || role=='Root'" (click)="closeCanvas()"><a class="dropdown-item" [routerLink]="['/product/size-color']" >Tailles et Couleurs</a></li>
               <li *ngIf="role=='Admin' || role=='Root'" (click)="closeCanvas()"><a class="dropdown-item" [routerLink]="['/product/brand']" routerLinkActive="active" >Les marques</a></li>
               <li><hr class="dropdown-divider"></li>
-              <li *ngIf="role=='Admin' || role=='Root' || role=='Vendeur'" (click)="closeCanvas()"><a class="dropdown-item" [routerLink]="['/product']" >Produits</a></li>
-              <li *ngIf="role=='Vendeur'" (click)="closeCanvas()"><a class="dropdown-item" [routerLink]="['/rejet-product']" >Produits Rejetés</a></li>
+              <li *ngIf="role=='Admin' || role=='Root'" (click)="closeCanvas()"><a class="dropdown-item" [routerLink]="['/product']" >Produits</a></li>
+              <!-- <li *ngIf="role=='Vendeur'" (click)="closeCanvas()"><a class="dropdown-item" [routerLink]="['/rejet-product']" >Produits Rejetés</a></li> -->
               <!-- <li *ngIf="role=='Vendeur'" (click)="closeCanvas()"><a class="dropdown-item" [routerLink]="['/own-command']" >Mes commandes</a></li> -->
             </ul>
           </li>
+          <li *ngIf="role=='Seller'" (click)="closeCanvas()"><a class="dropdown-item" [routerLink]="['/product']" >Ajouter un Article</a></li>
+          <li *ngIf="role=='Seller'" (click)="closeCanvas()"><a class="dropdown-item" [routerLink]="['/rejet-product']" >Produits Rejetés</a></li>
           <li *ngIf="role=='Admin' || role=='Root' || role=='Validator'" class="nav-item">
             <a class="nav-link active" (click)="closeCanvas()" aria-current="page" [routerLink]="['/product/validation']" routerLinkActive="active" >
               <span class="mx-2"><i class="icon-thumbs-up" style='font-size:20px; color: white;'></i></span>

@@ -78,6 +78,9 @@ export class AdvertisingComponent implements OnInit {
     this.editOrNot = false;
     this.formAdvertising.reset();
     this.imagSrcAdvert = 'assets/img/overview.jpeg';
+    this.formAdvertising.patchValue({
+      statut: true
+    })
   }
 
   saveAdvert() {

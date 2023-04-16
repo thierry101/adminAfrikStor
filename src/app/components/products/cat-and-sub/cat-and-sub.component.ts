@@ -64,8 +64,12 @@ export class CatAndSubComponent implements OnInit {
   openModalSubCat() {
     this.stateCat = false;
     this.stateSubCat = true;
+    this.editSubCat = false;
     this.title = "Ajouter une sous-catégorie"
   }
+  // {
+  //   next: allCategories => this.categories = allCategories,
+  // }
   // /////////////////////////////////////////// BEGIN CATEGORY /////////////////////////////////////////////////////////
   //****************************** add a new created category to the table of all categories ********************* */
   addCat(cat: Icategory) {

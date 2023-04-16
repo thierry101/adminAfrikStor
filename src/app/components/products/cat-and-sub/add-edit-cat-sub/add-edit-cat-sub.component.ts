@@ -54,18 +54,21 @@ export class AddEditCatSubComponent implements OnInit {
     // ********************** get all categories *******************************
     this.prodService.getCategory().subscribe({
       next: allCategories => this.categories = allCategories,
-      // error: err => this.errMsg = err
     })
   }
 
   ngOnChanges() {
     // chose witch modal to show cat or sub cat
+    // to show modal to add category
     if (this.statusCat === true && this.statusSubCat === false) {
       this.category = true
     }
-    // to show modal to add size
+    // to show modal to add subcategory
     else {
       this.category = false
+      this.prodService.getCategory().subscribe(res=>{
+        this.categories = res
+      })
     }
     // full modal category with information that we want to edit
     if (this.editTheCat === true) {
